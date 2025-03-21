@@ -27,7 +27,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public EventDto getEventById(Long id) {
         return eventRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Event not found"));
+                .orElseThrow(() -> new RuntimeException("Event not found with ID: " + id));
     }
 
     @Override
@@ -38,5 +38,10 @@ public class EventServiceImpl implements EventService {
     @Override
     public List<EventDto> getReminders() {
         return eventRepository.findByReminderSetTrue();
+    }
+
+    @Override
+    public List<EventDto> getEventsByType(String eventType) {
+        return eventRepository.findByEventType(eventType);
     }
 }

@@ -2,7 +2,9 @@ package com.codingcult.truescheduler.dto;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,35 +25,46 @@ import lombok.Setter;
 @Setter
 @Table(name = "event_dto")
 public class EventDto implements Serializable {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	private String title;
-	private String description;
-	private LocalDateTime startTime;
-	private LocalDateTime endTime;
-	private boolean reminderSet;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    private String title;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
+    private boolean reminderSet;
+
+    private String eventType;   // Event, Birthday, Task, To-Do List
+    private String location;    // Added location field
+
+    @ElementCollection
+    private List<String> people;  // List of people attending
+
+    @Override
+    public String toString() {
+        return "EventDto [id=" + id + ", title=" + title + ", startTime=" + startTime +
+               ", endTime=" + endTime + ", reminderSet=" + reminderSet + 
+               ", eventType=" + eventType + ", location=" + location + 
+               ", people=" + people + "]";
+    }
 
 	public EventDto() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public EventDto(Long id, String title, String description, LocalDateTime startTime, LocalDateTime endTime,
-			boolean reminderSet) {
+	public EventDto(Long id, String title, LocalDateTime startTime, LocalDateTime endTime, boolean reminderSet,
+			String eventType, String location, List<String> people) {
 		super();
 		this.id = id;
 		this.title = title;
-		this.description = description;
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.reminderSet = reminderSet;
-	}
-
-	@Override
-	public String toString() {
-		return "EventDto [id=" + id + ", title=" + title + ", description=" + description + ", startTime=" + startTime
-				+ ", endTime=" + endTime + ", reminderSet=" + reminderSet + "]";
+		this.eventType = eventType;
+		this.location = location;
+		this.people = people;
 	}
 
 	public Long getId() {
@@ -68,14 +81,6 @@ public class EventDto implements Serializable {
 
 	public void setTitle(String title) {
 		this.title = title;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 	public LocalDateTime getStartTime() {
@@ -102,4 +107,37 @@ public class EventDto implements Serializable {
 		this.reminderSet = reminderSet;
 	}
 
+	public String getEventType() {
+		return eventType;
+	}
+
+	public void setEventType(String eventType) {
+		this.eventType = eventType;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public List<String> getPeople() {
+		return people;
+	}
+
+	public void setPeople(List<String> people) {
+		this.people = people;
+	}
+    
+    
 }
+
+
+//POST http://localhost:8088/api/events → Add a new event.
+//GET http://localhost:8088/api/events → Retrieve all events.
+//GET http://localhost:8088/api/events/1 → Retrieve event by ID.
+//DELETE http://localhost:8088/api/events/1 → Delete event by ID.
+//GET http://localhost:8088/api/events/reminders → Retrieve all reminders.
+//GET http://localhost:8088/api/events/type/Birthday → Retrieve events by type.

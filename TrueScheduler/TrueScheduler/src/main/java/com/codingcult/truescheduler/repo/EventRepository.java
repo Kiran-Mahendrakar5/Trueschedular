@@ -11,7 +11,9 @@ import java.util.List;
 @Repository
 public interface EventRepository extends JpaRepository<EventDto, Long> {
 
-    List<EventDto> findByStartTimeBetween(LocalDateTime start, LocalDateTime end);
+	public List<EventDto> findByStartTimeBetween(LocalDateTime start, LocalDateTime end);
 
-    List<EventDto> findByReminderSetTrue();
+	public List<EventDto> findByReminderSetTrue();
+
+	public List<EventDto> findByEventType(String eventType);
 }

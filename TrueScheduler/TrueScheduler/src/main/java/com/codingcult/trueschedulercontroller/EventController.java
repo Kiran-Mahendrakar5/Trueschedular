@@ -1,7 +1,6 @@
 package com.codingcult.trueschedulercontroller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.codingcult.truescheduler.dto.EventDto;
@@ -16,30 +15,40 @@ public class EventController {
     @Autowired
     private EventService eventService;
 
+    // Add event
     @PostMapping
-    public ResponseEntity<EventDto> addEvent(@RequestBody EventDto eventDTO) {
-        EventDto savedEvent = eventService.saveEvent(eventDTO);
-        return ResponseEntity.ok(savedEvent);
+    public EventDto addEvent(@RequestBody EventDto eventDTO) {
+        return eventService.saveEvent(eventDTO);
     }
 
+    // Get all events
     @GetMapping
-    public ResponseEntity<List<EventDto>> getAllEvents() {
-        return ResponseEntity.ok(eventService.getAllEvents());
+    public List<EventDto> getAllEvents() {
+        return eventService.getAllEvents();
     }
 
+    // Get event by ID
     @GetMapping("/{id}")
-    public ResponseEntity<EventDto> getEventById(@PathVariable Long id) {
-        return ResponseEntity.ok(eventService.getEventById(id));
+    public EventDto getEventById(@PathVariable Long id) {
+        return eventService.getEventById(id);
     }
 
+    // Delete event by ID
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteEvent(@PathVariable Long id) {
+    public String deleteEvent(@PathVariable Long id) {
         eventService.deleteEvent(id);
-        return ResponseEntity.ok("Event deleted successfully");
+        return "Event deleted successfully";
     }
 
+    // Get reminders
     @GetMapping("/reminders")
-    public ResponseEntity<List<EventDto>> getReminders() {
-        return ResponseEntity.ok(eventService.getReminders());
+    public List<EventDto> getReminders() {
+        return eventService.getReminders();
+    }
+
+    // Get events by type
+    @GetMapping("/type/{eventType}")
+    public List<EventDto> getEventsByType(@PathVariable String eventType) {
+        return eventService.getEventsByType(eventType);
     }
 }
