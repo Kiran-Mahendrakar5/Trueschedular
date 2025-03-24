@@ -21,7 +21,7 @@ public class EventController {
         return eventService.saveEvent(eventDTO);
     }
 
-    // Get all events
+    
     @GetMapping
     public List<EventDto> getAllEvents() {
         return eventService.getAllEvents();

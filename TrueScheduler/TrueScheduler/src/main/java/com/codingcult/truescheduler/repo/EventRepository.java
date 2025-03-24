@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public interface EventRepository extends JpaRepository<EventDto, Long> {
+public interface EventRepository extends JpaRepository<EventDto, Long>  {
 
 	public List<EventDto> findByStartTimeBetween(LocalDateTime start, LocalDateTime end);
 
