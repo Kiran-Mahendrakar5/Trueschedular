@@ -1,4 +1,4 @@
-package com.codingcult.feedbackanalysis;
+package com.codingcult.feedbackanalysis.FeedbackAnalysis;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,4 +1,4 @@
-package com.codingcult.feedbackanalysis;
+package com.codingcult.feedbackanalysis.FeedbackAnalysis;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

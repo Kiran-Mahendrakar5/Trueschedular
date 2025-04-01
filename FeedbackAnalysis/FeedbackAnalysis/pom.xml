@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.codingcult.feedbackanalysis</groupId>
-	<artifactId>Feedback-Analysis</artifactId>
+	<artifactId>FeedbackAnalysis</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Feedback-Analysis</name>
+	<name>FeedbackAnalysis</name>
 	<description>Feedback Analysis for Spring Boot</description>
 	<url/>
 	<licenses>
