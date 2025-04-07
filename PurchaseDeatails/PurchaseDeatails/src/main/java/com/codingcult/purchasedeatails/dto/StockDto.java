@@ -1,12 +1,7 @@
 package com.codingcult.purchasedeatails.dto;
 
+import javax.persistence.*;
 import java.io.Serializable;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "stocks")
@@ -15,17 +10,22 @@ public class StockDto implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String itemName;    // Name of the stock item
-    private int quantity;       // Quantity available in stock
-    private double price;       // Price per unit of the item
+
+    private String itemName;
+    private int quantity;
+    private double price;
+    private String phoneNumber;
+    private boolean isActive = true;
 
     public StockDto() {}
 
-    public StockDto(Long id, String itemName, int quantity, double price) {
+    public StockDto(Long id, String itemName, int quantity, double price, String phoneNumber, boolean isActive) {
         this.id = id;
         this.itemName = itemName;
         this.quantity = quantity;
         this.price = price;
+        this.phoneNumber = phoneNumber;
+        this.isActive = isActive;
     }
 
     // Getters and Setters
@@ -40,4 +40,10 @@ public class StockDto implements Serializable {
 
     public double getPrice() { return price; }
     public void setPrice(double price) { this.price = price; }
+
+    public String getPhoneNumber() { return phoneNumber; }
+    public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
+
+    public boolean isActive() { return isActive; }
+    public void setActive(boolean active) { isActive = active; }
 }

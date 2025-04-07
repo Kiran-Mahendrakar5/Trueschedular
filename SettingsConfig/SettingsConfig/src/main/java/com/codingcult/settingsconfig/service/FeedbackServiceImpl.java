@@ -2,7 +2,6 @@ package com.codingcult.settingsconfig.service;
 
 import com.codingcult.settingsconfig.dto.FeedbackDTO;
 import com.codingcult.settingsconfig.repo.FeedbackRepository;
-import com.codingcult.settingsconfig.service.FeedbackService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

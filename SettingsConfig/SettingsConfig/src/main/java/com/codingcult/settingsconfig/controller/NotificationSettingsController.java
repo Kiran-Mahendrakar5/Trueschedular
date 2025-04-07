@@ -1,6 +1,5 @@
 package com.codingcult.settingsconfig.controller;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,19 +20,19 @@ public class NotificationSettingsController {
         return notificationSettingsService.saveNotificationSettings(notificationSettingsDTO);
     }
 
-    @GetMapping("/{userId}")
-    public NotificationSettingsDTO getNotificationSettings(@PathVariable Long userId) {
-        return notificationSettingsService.getNotificationSettings(userId);
+    @GetMapping("/{phoneNumber}")
+    public NotificationSettingsDTO getNotificationSettings(@PathVariable String phoneNumber) {
+        return notificationSettingsService.getNotificationSettings(phoneNumber);
     }
 
-    @PutMapping("/{userId}")
-    public NotificationSettingsDTO updateNotificationSettings(@PathVariable Long userId, @RequestBody NotificationSettingsDTO notificationSettingsDTO) {
-        return notificationSettingsService.updateNotificationSettings(userId, notificationSettingsDTO);
+    @PutMapping("/{phoneNumber}")
+    public NotificationSettingsDTO updateNotificationSettings(@PathVariable String phoneNumber, @RequestBody NotificationSettingsDTO notificationSettingsDTO) {
+        return notificationSettingsService.updateNotificationSettings(phoneNumber, notificationSettingsDTO);
     }
 
-    @PutMapping("/{userId}/read")
-    public void markNotificationAsRead(@PathVariable Long userId) {
-        notificationSettingsService.markNotificationAsRead(userId);
+    @PutMapping("/{phoneNumber}/read")
+    public void markNotificationAsRead(@PathVariable String phoneNumber) {
+        notificationSettingsService.markNotificationAsRead(phoneNumber);
     }
 
     @GetMapping

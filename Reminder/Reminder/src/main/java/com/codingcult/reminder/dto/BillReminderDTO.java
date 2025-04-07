@@ -33,9 +33,12 @@ public class BillReminderDTO implements Serializable {
     @Column(name = "auto_payment_enabled")
     private boolean autoPaymentEnabled;
 
-    @NotBlank(message = "User email cannot be blank")
-    @Column(name = "user_email", nullable = false)
-    private String userEmail;
+    @NotBlank(message = "Phone number cannot be blank")
+    @Column(name = "phone_number", nullable = false)
+    private String phoneNumber;
+
+    @Column(name = "is_active")
+    private boolean isActive = true;
 
     public BillReminderDTO() {
         super();
@@ -90,11 +93,19 @@ public class BillReminderDTO implements Serializable {
         this.autoPaymentEnabled = autoPaymentEnabled;
     }
 
-    public String getUserEmail() {
-        return userEmail;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }

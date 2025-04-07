@@ -1,12 +1,9 @@
 package com.codingcult.settingsconfig.controller;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import com.codingcult.settingsconfig.dto.BackupDTO;
 import com.codingcult.settingsconfig.service.BackupService;
-
 import java.util.List;
 
 @RestController
@@ -16,9 +13,9 @@ public class BackupController {
     @Autowired
     private BackupService backupService;
 
-    @PostMapping("/{backupType}")
-    public BackupDTO createBackup(@PathVariable String backupType) {
-        return backupService.createBackup(backupType.toUpperCase());
+    @PostMapping("/{backupType}/{phoneNumber}")
+    public BackupDTO createBackup(@PathVariable String backupType, @PathVariable String phoneNumber) {
+        return backupService.createBackup(backupType.toUpperCase(), phoneNumber);
     }
 
     @GetMapping

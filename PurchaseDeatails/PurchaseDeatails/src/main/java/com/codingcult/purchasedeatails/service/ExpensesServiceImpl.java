@@ -1,10 +1,9 @@
 package com.codingcult.purchasedeatails.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.codingcult.purchasedeatails.dto.ExpensesDto;
 import com.codingcult.purchasedeatails.repo.ExpensesRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -16,11 +15,12 @@ public class ExpensesServiceImpl implements ExpensesService {
 
     @Override
     public ExpensesDto addExpense(ExpensesDto expensesDto) {
-        return expensesRepository.save(expensesDto);  // Save the expense to the database
+        expensesDto.setActive(true); // Always set active while saving
+        return expensesRepository.save(expensesDto);
     }
 
     @Override
     public List<ExpensesDto> getAllExpenses() {
-        return expensesRepository.findAll();  // Get all expenses from the database
+        return expensesRepository.findByIsActiveTrue(); // Return only active expenses
     }
 }

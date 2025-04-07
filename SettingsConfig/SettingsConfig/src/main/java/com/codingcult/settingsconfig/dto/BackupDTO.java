@@ -12,7 +12,7 @@ public class BackupDTO {
     private Long id;
 
     @Column(name = "backup_type", nullable = false)
-    private String backupType; // "CLOUD" or "LOCAL"
+    private String backupType;
 
     @Column(name = "backup_date", nullable = false)
     private LocalDateTime backupDate;
@@ -21,54 +21,44 @@ public class BackupDTO {
     private double sizeInMB;
 
     @Column(name = "backup_status")
-    private String backupStatus; // "COMPLETED", "FAILED", "IN_PROGRESS"
+    private String backupStatus;
+
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
+    @Column(name = "is_active")
+    private boolean isActive = true;
 
     public BackupDTO() {}
 
-    public BackupDTO(String backupType, LocalDateTime backupDate, double sizeInMB, String backupStatus) {
+    public BackupDTO(String backupType, LocalDateTime backupDate, double sizeInMB, String backupStatus, String phoneNumber, boolean isActive) {
         this.backupType = backupType;
         this.backupDate = backupDate;
         this.sizeInMB = sizeInMB;
         this.backupStatus = backupStatus;
+        this.phoneNumber = phoneNumber;
+        this.isActive = isActive;
     }
 
-    public Long getId() {
-        return id;
-    }
+    // Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getBackupType() { return backupType; }
+    public void setBackupType(String backupType) { this.backupType = backupType; }
 
-    public String getBackupType() {
-        return backupType;
-    }
+    public LocalDateTime getBackupDate() { return backupDate; }
+    public void setBackupDate(LocalDateTime backupDate) { this.backupDate = backupDate; }
 
-    public void setBackupType(String backupType) {
-        this.backupType = backupType;
-    }
+    public double getSizeInMB() { return sizeInMB; }
+    public void setSizeInMB(double sizeInMB) { this.sizeInMB = sizeInMB; }
 
-    public LocalDateTime getBackupDate() {
-        return backupDate;
-    }
+    public String getBackupStatus() { return backupStatus; }
+    public void setBackupStatus(String backupStatus) { this.backupStatus = backupStatus; }
 
-    public void setBackupDate(LocalDateTime backupDate) {
-        this.backupDate = backupDate;
-    }
+    public String getPhoneNumber() { return phoneNumber; }
+    public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
 
-    public double getSizeInMB() {
-        return sizeInMB;
-    }
-
-    public void setSizeInMB(double sizeInMB) {
-        this.sizeInMB = sizeInMB;
-    }
-
-    public String getBackupStatus() {
-        return backupStatus;
-    }
-
-    public void setBackupStatus(String backupStatus) {
-        this.backupStatus = backupStatus;
-    }
+    public boolean isActive() { return isActive; }
+    public void setActive(boolean active) { isActive = active; }
 }

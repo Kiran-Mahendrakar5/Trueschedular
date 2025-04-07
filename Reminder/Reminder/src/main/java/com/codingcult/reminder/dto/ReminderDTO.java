@@ -1,7 +1,5 @@
 package com.codingcult.reminder.dto;
 
-
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -14,30 +12,31 @@ public class ReminderDTO implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String userEmail;  // User receiving the notification
-    private String friendName; // Friend's name
-    private String reminderType; // BIRTHDAY, ANNIVERSARY, CUSTOM
-    private LocalDateTime eventDate; // Date & time of the event
-    private String message;  // Notification message
+    private String phoneNumber; // Mandatory identifier
+    private String friendName;
+    private String reminderType;
+    private LocalDateTime eventDate;
+    private String message;
+    private boolean isActive = true;
 
-    // Default Constructor
     public ReminderDTO() {}
 
-    // Constructor
-    public ReminderDTO(String userEmail, String friendName, String reminderType, LocalDateTime eventDate, String message) {
-        this.userEmail = userEmail;
+    public ReminderDTO(String phoneNumber, String friendName, String reminderType,
+                       LocalDateTime eventDate, String message) {
+        this.phoneNumber = phoneNumber;
         this.friendName = friendName;
         this.reminderType = reminderType;
         this.eventDate = eventDate;
         this.message = message;
+        this.isActive = true;
     }
 
-    // Getters & Setters
+    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public String getUserEmail() { return userEmail; }
-    public void setUserEmail(String userEmail) { this.userEmail = userEmail; }
+    public String getPhoneNumber() { return phoneNumber; }
+    public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
 
     public String getFriendName() { return friendName; }
     public void setFriendName(String friendName) { this.friendName = friendName; }
@@ -50,5 +49,7 @@ public class ReminderDTO implements Serializable {
 
     public String getMessage() { return message; }
     public void setMessage(String message) { this.message = message; }
-}
 
+    public boolean isActive() { return isActive; }
+    public void setActive(boolean active) { isActive = active; }
+}

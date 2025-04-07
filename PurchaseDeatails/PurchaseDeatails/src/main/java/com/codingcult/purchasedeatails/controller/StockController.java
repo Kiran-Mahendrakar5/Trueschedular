@@ -1,11 +1,9 @@
 package com.codingcult.purchasedeatails.controller;
 
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
 import com.codingcult.purchasedeatails.dto.StockDto;
 import com.codingcult.purchasedeatails.service.StockService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,28 +14,28 @@ public class StockController {
     @Autowired
     private StockService stockService;
 
-    // Endpoint to add new stock
     @PostMapping
-    public StockDto addStock(@RequestBody StockDto stockDto) {
-        return stockService.addStock(stockDto);  // Add new stock item
+    public StockDto save(@RequestBody StockDto stockDto) {
+        return stockService.save(stockDto);
     }
 
-    // Endpoint to get all stocks
     @GetMapping
-    public List<StockDto> getAllStocks() {
-        return stockService.getAllStocks();  // Get all stocks in the inventory
+    public List<StockDto> getAll() {
+        return stockService.getAll();
     }
 
-    // Endpoint to get stock by item name
     @GetMapping("/{itemName}")
-    public StockDto getStock(@PathVariable String itemName) {
-        return stockService.getStockByItemName(itemName);  // Get stock details by item name
+    public StockDto getByItemName(@PathVariable String itemName) {
+        return stockService.findByItemName(itemName);
     }
 
-    // Endpoint to update stock quantity
     @PutMapping("/{itemName}/{quantity}")
-    public StockDto updateStock(@PathVariable String itemName, @PathVariable int quantity) {
-        return stockService.updateStockQuantity(itemName, quantity);  // Update stock quantity
+    public StockDto updateQuantity(@PathVariable String itemName, @PathVariable int quantity) {
+        return stockService.updateQuantity(itemName, quantity);
+    }
+
+    @PutMapping("/deactivate/{id}")
+    public StockDto deactivate(@PathVariable Long id) {
+        return stockService.deactivate(id);
     }
 }
-

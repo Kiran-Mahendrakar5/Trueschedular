@@ -14,9 +14,9 @@ public class EventDetailsDTO implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "User email cannot be blank")
-    @Column(name = "user_email", nullable = false)
-    private String userEmail;
+    @NotBlank(message = "Phone number cannot be blank")
+    @Column(name = "phone_number", nullable = false)
+    private String phoneNumber;
 
     @NotBlank(message = "Event title cannot be blank")
     @Column(name = "event_title", nullable = false)
@@ -29,62 +29,100 @@ public class EventDetailsDTO implements Serializable {
     @Column(name = "event_end_time")
     private LocalDateTime eventEndTime;
 
-    @Column(name = "recurrence_pattern") 
-    private String recurrencePattern; // Example: DAILY, WEEKLY, MONTHLY, NONE
-
     @Column(name = "notification_enabled")
-    private Boolean notificationEnabled = true; // Default notifications enabled
+    private Boolean notificationEnabled = true;
 
     @Column(name = "sync_with_external_calendar")
-    private Boolean syncWithExternalCalendar = false; // Default: Not syncing
+    private Boolean syncWithExternalCalendar = false;
+
+    @Column(name = "is_active")
+    private boolean isActive = true;
 
     public EventDetailsDTO() {
         super();
     }
 
-    public EventDetailsDTO(Long id, String userEmail, String eventTitle, LocalDateTime eventStartTime,
-                           LocalDateTime eventEndTime, String recurrencePattern, Boolean notificationEnabled,
-                           Boolean syncWithExternalCalendar) {
+    public EventDetailsDTO(Long id, String phoneNumber, String eventTitle, LocalDateTime eventStartTime,
+                           LocalDateTime eventEndTime, Boolean notificationEnabled,
+                           Boolean syncWithExternalCalendar, boolean isActive) {
         this.id = id;
-        this.userEmail = userEmail;
+        this.phoneNumber = phoneNumber;
         this.eventTitle = eventTitle;
         this.eventStartTime = eventStartTime;
         this.eventEndTime = eventEndTime;
-        this.recurrencePattern = recurrencePattern;
         this.notificationEnabled = notificationEnabled;
         this.syncWithExternalCalendar = syncWithExternalCalendar;
+        this.isActive = isActive;
     }
 
     @Override
     public String toString() {
-        return "EventDetailsDTO [id=" + id + ", userEmail=" + userEmail + ", eventTitle=" + eventTitle +
-                ", eventStartTime=" + eventStartTime + ", eventEndTime=" + eventEndTime +
-                ", recurrencePattern=" + recurrencePattern + ", notificationEnabled=" + notificationEnabled +
-                ", syncWithExternalCalendar=" + syncWithExternalCalendar + "]";
+        return "EventDetailsDTO [id=" + id + ", phoneNumber=" + phoneNumber + ", eventTitle=" + eventTitle
+                + ", eventStartTime=" + eventStartTime + ", eventEndTime=" + eventEndTime + ", notificationEnabled="
+                + notificationEnabled + ", syncWithExternalCalendar=" + syncWithExternalCalendar + ", isActive=" + isActive + "]";
     }
 
-    // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() {
+        return id;
+    }
 
-    public String getUserEmail() { return userEmail; }
-    public void setUserEmail(String userEmail) { this.userEmail = userEmail; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getEventTitle() { return eventTitle; }
-    public void setEventTitle(String eventTitle) { this.eventTitle = eventTitle; }
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
 
-    public LocalDateTime getEventStartTime() { return eventStartTime; }
-    public void setEventStartTime(LocalDateTime eventStartTime) { this.eventStartTime = eventStartTime; }
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 
-    public LocalDateTime getEventEndTime() { return eventEndTime; }
-    public void setEventEndTime(LocalDateTime eventEndTime) { this.eventEndTime = eventEndTime; }
+    public String getEventTitle() {
+        return eventTitle;
+    }
 
-    public String getRecurrencePattern() { return recurrencePattern; }
-    public void setRecurrencePattern(String recurrencePattern) { this.recurrencePattern = recurrencePattern; }
+    public void setEventTitle(String eventTitle) {
+        this.eventTitle = eventTitle;
+    }
 
-    public Boolean getNotificationEnabled() { return notificationEnabled; }
-    public void setNotificationEnabled(Boolean notificationEnabled) { this.notificationEnabled = notificationEnabled; }
+    public LocalDateTime getEventStartTime() {
+        return eventStartTime;
+    }
 
-    public Boolean getSyncWithExternalCalendar() { return syncWithExternalCalendar; }
-    public void setSyncWithExternalCalendar(Boolean syncWithExternalCalendar) { this.syncWithExternalCalendar = syncWithExternalCalendar; }
+    public void setEventStartTime(LocalDateTime eventStartTime) {
+        this.eventStartTime = eventStartTime;
+    }
+
+    public LocalDateTime getEventEndTime() {
+        return eventEndTime;
+    }
+
+    public void setEventEndTime(LocalDateTime eventEndTime) {
+        this.eventEndTime = eventEndTime;
+    }
+
+    public Boolean getNotificationEnabled() {
+        return notificationEnabled;
+    }
+
+    public void setNotificationEnabled(Boolean notificationEnabled) {
+        this.notificationEnabled = notificationEnabled;
+    }
+
+    public Boolean getSyncWithExternalCalendar() {
+        return syncWithExternalCalendar;
+    }
+
+    public void setSyncWithExternalCalendar(Boolean syncWithExternalCalendar) {
+        this.syncWithExternalCalendar = syncWithExternalCalendar;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean isActive) {
+        this.isActive = isActive;
+    }
 }

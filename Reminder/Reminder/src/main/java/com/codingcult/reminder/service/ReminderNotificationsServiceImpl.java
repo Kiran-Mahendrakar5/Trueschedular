@@ -13,45 +13,43 @@ import java.util.List;
 public class ReminderNotificationsServiceImpl implements ReminderNotificationsService {
 
     @Autowired
-    private ReminderNotificationsRepository reminderNotificationsRepository;
+    private ReminderNotificationsRepository repo;
 
     @Override
-    public ReminderNotificationsDTO createNotification(ReminderNotificationsDTO reminderNotificationsDTO) {
-        return reminderNotificationsRepository.save(reminderNotificationsDTO);
+    public ReminderNotificationsDTO createNotification(ReminderNotificationsDTO dto) {
+        return repo.save(dto);
     }
 
     @Override
-    public List<ReminderNotificationsDTO> getNotificationsByUser(String userEmail) {
-        return reminderNotificationsRepository.findByUserEmail(userEmail);
+    public List<ReminderNotificationsDTO> getAllActiveNotifications() {
+        return repo.findByIsActiveTrue();
     }
 
     @Override
-    public List<ReminderNotificationsDTO> getNotificationsByType(String notificationType) {
-        return reminderNotificationsRepository.findByNotificationType(notificationType);
+    public void deactivateNotification(Long id) {
+        repo.findById(id).ifPresent(notification -> {
+            notification.setActive(false);
+            repo.save(notification);
+        });
     }
 
     @Override
-    @Scheduled(cron = "0 0 9 * * *")  // Runs daily at 9 AM
+    @Scheduled(cron = "0 0/1 * * * *") // Every minute for demo
     public void sendScheduledNotifications() {
         LocalDateTime now = LocalDateTime.now();
+        List<ReminderNotificationsDTO> all = repo.findAll();
 
-        List<ReminderNotificationsDTO> notifications = reminderNotificationsRepository.findByReminderDateBeforeAndStatus(now, "PENDING");
-
-        for (ReminderNotificationsDTO notification : notifications) {
-            sendNotification(notification);
-            notification.setStatus("SENT");
-            reminderNotificationsRepository.save(notification);
+        for (ReminderNotificationsDTO dto : all) {
+            if (dto.isActive() && dto.getScheduledTime().isBefore(now)) {
+                sendNotificationToPhone(dto.getPhoneNumber(), dto.getMessage());
+                dto.setActive(false); // mark as sent
+                repo.save(dto);
+            }
         }
     }
 
-    private void sendNotification(ReminderNotificationsDTO notification) {
-        System.out.println("🔔 Reminder Notification: " + notification.getNotificationType() +
-                " - " + notification.getProductName() + " for " + notification.getUserEmail());
-        // Implement actual email/SMS push notification logic here.
-    }
-
     @Override
-    public void deleteNotification(Long id) {
-        reminderNotificationsRepository.deleteById(id);
+    public void sendNotificationToPhone(String phoneNumber, String message) {
+        System.out.println("📲 Sending notification to " + phoneNumber + ": " + message);
     }
 }

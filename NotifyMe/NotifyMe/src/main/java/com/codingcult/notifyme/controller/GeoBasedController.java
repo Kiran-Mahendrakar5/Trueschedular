@@ -26,4 +26,4 @@ public class GeoBasedController {
     public List<GeoBasedDto> getNearbyStores(@RequestParam double latitude, @RequestParam double longitude, @RequestParam double range) {
         return geoBasedService.getNearbyStores(latitude, longitude, range);
     }
-}
+} 

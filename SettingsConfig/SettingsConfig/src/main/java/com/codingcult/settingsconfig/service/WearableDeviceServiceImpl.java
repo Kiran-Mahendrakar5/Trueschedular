@@ -1,6 +1,5 @@
 package com.codingcult.settingsconfig.service;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -17,21 +16,23 @@ public class WearableDeviceServiceImpl implements WearableDeviceService {
 
     @Autowired
     private WearableDeviceRepository wearableDeviceRepository;
-    
+
     @Override
     public WearableDeviceDTO saveWearable(WearableDeviceDTO wearableDTO) {
+        wearableDTO.setActive(true);
+        wearableDTO.setLastSyncTime(LocalDateTime.now());
+        wearableDTO.setStatus("ACTIVE");
         return wearableDeviceRepository.save(wearableDTO);
     }
 
-
     @Override
-    public WearableDeviceDTO registerDevice(String deviceId, String syncFrequency) {
+    public WearableDeviceDTO registerDevice(String deviceId, String phoneNumber, String syncFrequency) {
         Optional<WearableDeviceDTO> existingDevice = wearableDeviceRepository.findByDeviceId(deviceId);
         if (existingDevice.isPresent()) {
             throw new RuntimeException("Device already registered.");
         }
 
-        WearableDeviceDTO device = new WearableDeviceDTO(deviceId, syncFrequency, LocalDateTime.now(), "ACTIVE");
+        WearableDeviceDTO device = new WearableDeviceDTO(deviceId, phoneNumber, syncFrequency, LocalDateTime.now(), "ACTIVE");
         return wearableDeviceRepository.save(device);
     }
 
@@ -59,7 +60,6 @@ public class WearableDeviceServiceImpl implements WearableDeviceService {
         return wearableDeviceRepository.findAll();
     }
 
-    // Scheduled sync every 6 hours
     @Scheduled(fixedRate = 21600000)
     public void scheduledSync() {
         List<WearableDeviceDTO> devices = wearableDeviceRepository.findAll();

@@ -9,7 +9,10 @@ import java.util.List;
 
 @Repository
 public interface RechargeAlertRepository extends JpaRepository<RechargeAlertDTO, Long> {
-    List<RechargeAlertDTO> findByMobileNumber(String mobileNumber);
-    
-    List<RechargeAlertDTO> findByBalanceLessThan(Double threshold);
+
+    List<RechargeAlertDTO> findByIsActiveTrue();
+
+    List<RechargeAlertDTO> findByMobileNumberAndIsActiveTrue(String mobileNumber);
+
+    List<RechargeAlertDTO> findByBalanceLessThanAndIsActiveTrue(Double threshold);
 }

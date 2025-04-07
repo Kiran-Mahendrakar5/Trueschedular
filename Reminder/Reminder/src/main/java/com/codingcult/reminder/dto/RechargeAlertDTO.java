@@ -45,98 +45,83 @@ public class RechargeAlertDTO implements Serializable {
     @Column(name = "data_limit", nullable = false)
     private String dataLimit;
 
-    @NotBlank(message = "User email cannot be blank")
-    @Column(name = "user_email", nullable = false)
-    private String userEmail;
+    @Column(name = "is_active")
+    private boolean isActive = true;
 
     public RechargeAlertDTO() {
     }
 
-    public RechargeAlertDTO(Long id, String mobileNumber, Double balance, Double threshold, String planName, Double price, String validity, String dataLimit, String userEmail) {
-        this.id = id;
-        this.mobileNumber = mobileNumber;
-        this.balance = balance;
-        this.threshold = threshold;
-        this.planName = planName;
-        this.price = price;
-        this.validity = validity;
-        this.dataLimit = dataLimit;
-        this.userEmail = userEmail;
+    // Getters and Setters
+
+    public Long getId() {
+        return id;
     }
 
-	public Long getId() {
-		return id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
 
-	public String getMobileNumber() {
-		return mobileNumber;
-	}
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
+    }
 
-	public void setMobileNumber(String mobileNumber) {
-		this.mobileNumber = mobileNumber;
-	}
+    public Double getBalance() {
+        return balance;
+    }
 
-	public Double getBalance() {
-		return balance;
-	}
+    public void setBalance(Double balance) {
+        this.balance = balance;
+    }
 
-	public void setBalance(Double balance) {
-		this.balance = balance;
-	}
+    public Double getThreshold() {
+        return threshold;
+    }
 
-	public Double getThreshold() {
-		return threshold;
-	}
+    public void setThreshold(Double threshold) {
+        this.threshold = threshold;
+    }
 
-	public void setThreshold(Double threshold) {
-		this.threshold = threshold;
-	}
+    public String getPlanName() {
+        return planName;
+    }
 
-	public String getPlanName() {
-		return planName;
-	}
+    public void setPlanName(String planName) {
+        this.planName = planName;
+    }
 
-	public void setPlanName(String planName) {
-		this.planName = planName;
-	}
+    public Double getPrice() {
+        return price;
+    }
 
-	public Double getPrice() {
-		return price;
-	}
+    public void setPrice(Double price) {
+        this.price = price;
+    }
 
-	public void setPrice(Double price) {
-		this.price = price;
-	}
+    public String getValidity() {
+        return validity;
+    }
 
-	public String getValidity() {
-		return validity;
-	}
+    public void setValidity(String validity) {
+        this.validity = validity;
+    }
 
-	public void setValidity(String validity) {
-		this.validity = validity;
-	}
+    public String getDataLimit() {
+        return dataLimit;
+    }
 
-	public String getDataLimit() {
-		return dataLimit;
-	}
+    public void setDataLimit(String dataLimit) {
+        this.dataLimit = dataLimit;
+    }
 
-	public void setDataLimit(String dataLimit) {
-		this.dataLimit = dataLimit;
-	}
+    public boolean isActive() {
+        return isActive;
+    }
 
-	public String getUserEmail() {
-		return userEmail;
-	}
-
-	public void setUserEmail(String userEmail) {
-		this.userEmail = userEmail;
-	}
-    
-    
-
-    // Getters and Setters
+    public void setActive(boolean active) {
+        isActive = active;
+    }
 }

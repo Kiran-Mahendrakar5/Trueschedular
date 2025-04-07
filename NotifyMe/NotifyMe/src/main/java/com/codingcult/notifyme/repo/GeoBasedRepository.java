@@ -7,8 +7,6 @@ import java.util.List;
 
 @Repository
 public interface GeoBasedRepository extends JpaRepository<GeoBasedDto, Long> {
-    
     // Custom query to find stores within a given latitude and longitude range
     List<GeoBasedDto> findByLatitudeBetweenAndLongitudeBetween(double latMin, double latMax, double lonMin, double lonMax);
 }
-

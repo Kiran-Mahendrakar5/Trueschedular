@@ -1,6 +1,5 @@
 package com.codingcult.settingsconfig.controller;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,12 +20,10 @@ public class WearableDeviceController {
         return wearableDeviceService.saveWearable(wearableDTO);
     }
 
-    
     @PostMapping("/register")
-    public WearableDeviceDTO registerDevice(@RequestParam String deviceId, @RequestParam String syncFrequency) {
-        return wearableDeviceService.registerDevice(deviceId, syncFrequency.toUpperCase());
+    public WearableDeviceDTO registerDevice(@RequestParam String deviceId, @RequestParam String phoneNumber, @RequestParam String syncFrequency) {
+        return wearableDeviceService.registerDevice(deviceId, phoneNumber, syncFrequency.toUpperCase());
     }
-
 
     @PutMapping("/updateSync")
     public WearableDeviceDTO updateSyncFrequency(@RequestParam String deviceId, @RequestParam String newFrequency) {

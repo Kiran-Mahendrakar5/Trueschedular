@@ -1,13 +1,11 @@
 package com.codingcult.purchasedeatails.controller;
 
-import java.util.List;
+import com.codingcult.purchasedeatails.dto.ItemTrackDto;
+import com.codingcult.purchasedeatails.service.ItemTrackService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.codingcult.purchasedeatails.dto.ItemTrackDto;
-import com.codingcult.purchasedeatails.service.ItemTrackService;
-
-
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/itemtrack")
@@ -18,16 +16,16 @@ public class ItemTrackController {
 
     @PostMapping
     public ItemTrackDto addItemTrack(@RequestBody ItemTrackDto itemTrack) {
-        return itemTrackService.saveItemTrack(itemTrack);  // Save item track data
+        return itemTrackService.saveItemTrack(itemTrack);
     }
 
     @GetMapping
     public List<ItemTrackDto> getAllItemTracks() {
-        return itemTrackService.getAllItemTracks();  // Get all item tracks
+        return itemTrackService.getAllItemTracks();
     }
 
     @GetMapping("/{trackId}")
     public ItemTrackDto getItemTrack(@PathVariable String trackId) {
-        return itemTrackService.getItemTrackByTrackId(trackId);  // Get item track by trackId
+        return itemTrackService.getItemTrackByTrackId(trackId);
     }
 }

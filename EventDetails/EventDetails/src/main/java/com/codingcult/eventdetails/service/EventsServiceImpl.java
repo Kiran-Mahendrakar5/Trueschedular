@@ -1,58 +1,53 @@
 package com.codingcult.eventdetails.service;
 
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
-
 import com.codingcult.eventdetails.dto.EventsDTO;
 import com.codingcult.eventdetails.repo.EventsRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EventsServiceImpl implements EventsService {
 
     @Autowired
-    private EventsRepository eventsRepository;
+    private EventsRepository repository;
 
     @Override
-    public EventsDTO addEvent(EventsDTO eventsDTO) {
-        return eventsRepository.save(eventsDTO);
+    public EventsDTO save(EventsDTO dto) {
+        return repository.save(dto);
     }
 
     @Override
-    public List<EventsDTO> getEventsByUser(String userEmail) {
-        return eventsRepository.findByUserEmail(userEmail);
+    public List<EventsDTO> getAll() {
+        return repository.findByIsActiveTrue();
     }
 
     @Override
-    @Scheduled(cron = "0 * * * * *") // Run every minute
-    public void sendEventReminders() {
-        LocalDateTime now = LocalDateTime.now();
-        List<EventsDTO> events = eventsRepository.findByEventTimeBetween(now, now.plusMinutes(10));
+    public List<EventsDTO> getByPhoneNumber(String phoneNumber) {
+        return repository.findByPhoneNumberAndIsActiveTrue(phoneNumber);
+    }
 
-        for (EventsDTO event : events) {
-            if (event.getNotifyBeforeMinutes() != null && event.getEventTime().minusMinutes(event.getNotifyBeforeMinutes()).isBefore(now)) {
-                sendNotification(event);
-            }
+    @Override
+    public EventsDTO update(Long id, EventsDTO dto) {
+        Optional<EventsDTO> existing = repository.findById(id);
+        if (existing.isPresent()) {
+            dto.setId(id);
+            return repository.save(dto);
         }
-    }
-
-    private void sendNotification(EventsDTO event) {
-        System.out.println("🔔 Event Reminder: " + event.getEventTitle() + " at " + event.getEventTime() + " Location: " + event.getLocation());
-        // Implement push/email notifications here
+        return null;
     }
 
     @Override
-    public String calculateETA(String userLocation, String eventLocation) {
-        // Mocking an ETA calculation (real-world implementation requires Google Maps API)
-        return "Estimated travel time from " + userLocation + " to " + eventLocation + " is 25 minutes.";
-    }
-
-    @Override
-    public void deleteEvent(Long eventId) {
-        eventsRepository.deleteById(eventId);
+    public boolean delete(Long id) {
+        Optional<EventsDTO> existing = repository.findById(id);
+        if (existing.isPresent()) {
+            EventsDTO dto = existing.get();
+            dto.setActive(false);
+            repository.save(dto);
+            return true;
+        }
+        return false;
     }
 }

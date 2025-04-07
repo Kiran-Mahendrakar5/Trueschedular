@@ -21,17 +21,17 @@ public class FriendsController {
         return friendsService.addFriend(friendDTO);
     }
 
-    @GetMapping("/{userEmail}")
-    public List<FriendsDTO> getFriendsByUser(@PathVariable String userEmail) {
-        return friendsService.getFriendsByUser(userEmail);
+    @GetMapping
+    public List<FriendsDTO> getAllActiveFriends() {
+        return friendsService.getAllActiveFriends();
     }
 
     @PutMapping("/enable-location/{friendId}")
     public String enableLocationTracking(@PathVariable Long friendId) {
         if (friendsService.enableLocationTracking(friendId)) {
-            return "Location tracking enabled for friend.";
+            return "Location tracking enabled.";
         } else {
-            return "Failed to enable location tracking.";
+            return "Failed to enable tracking.";
         }
     }
 

@@ -9,7 +9,7 @@ public interface BillReminderService {
 
     List<BillReminderDTO> getAllBillReminders();
 
-    List<BillReminderDTO> getBillRemindersByUserEmail(String userEmail);
+    List<BillReminderDTO> getBillRemindersByPhoneNumber(String phoneNumber);
 
     List<BillReminderDTO> getDueBills();
 

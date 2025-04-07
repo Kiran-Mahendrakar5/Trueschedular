@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 import javax.validation.Valid;
 
 @RestController
@@ -21,16 +20,14 @@ public class BillReminderController {
         return billReminderService.createBillReminder(billReminderDTO);
     }
 
-
-
     @GetMapping
     public List<BillReminderDTO> getAllBillReminders() {
         return billReminderService.getAllBillReminders();
     }
 
-    @GetMapping("/{userEmail}")
-    public List<BillReminderDTO> getBillRemindersByUserEmail(@PathVariable String userEmail) {
-        return billReminderService.getBillRemindersByUserEmail(userEmail);
+    @GetMapping("/{phoneNumber}")
+    public List<BillReminderDTO> getBillRemindersByPhoneNumber(@PathVariable String phoneNumber) {
+        return billReminderService.getBillRemindersByPhoneNumber(phoneNumber);
     }
 
     @GetMapping("/due-bills")

@@ -1,11 +1,8 @@
 package com.codingcult.settingsconfig.dto;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.*;
 import java.io.Serializable;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "Feedback")
@@ -13,31 +10,35 @@ public class FeedbackDTO implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;  // Unique identifier for Feedback entry
+    private Long id;
 
-    // Validates that feedback type is not blank and restricts to specific values
     @NotBlank(message = "Feedback type cannot be blank")
     @Size(max = 50, message = "Feedback type cannot exceed 50 characters")
-    private String feedbackType;    // Complaint, Suggestion, or Inquiry
+    private String feedbackType;
 
-    // Validates that rating is between 1 and 5 (inclusive)
     @Min(value = 1, message = "Rating should be between 1 and 5")
     @Max(value = 5, message = "Rating should be between 1 and 5")
-    private int rating;             // Rating from 1 to 5 stars
+    private int rating;
 
-    // Validates that comments are not blank and provides a maximum length
     @NotBlank(message = "Comments cannot be blank")
     @Size(max = 500, message = "Comments cannot exceed 500 characters")
-    private String comments;        // Comments/Feedback description
+    private String comments;
 
-    // Constructor
-    public FeedbackDTO(String feedbackType, int rating, String comments) {
+    @NotBlank(message = "Phone number cannot be blank")
+    @Size(min = 10, max = 15, message = "Phone number should be between 10 and 15 digits")
+    private String phoneNumber;
+
+    private boolean isActive = true;
+
+    public FeedbackDTO() {}
+
+    public FeedbackDTO(String feedbackType, int rating, String comments, String phoneNumber) {
         this.feedbackType = feedbackType;
         this.rating = rating;
         this.comments = comments;
+        this.phoneNumber = phoneNumber;
     }
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -70,13 +71,19 @@ public class FeedbackDTO implements Serializable {
         this.comments = comments;
     }
 
-    @Override
-    public String toString() {
-        return "FeedbackDTO{" +
-                "id=" + id +
-                ", feedbackType='" + feedbackType + '\'' +
-                ", rating=" + rating +
-                ", comments='" + comments + '\'' +
-                '}';
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }

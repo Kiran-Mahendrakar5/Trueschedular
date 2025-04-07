@@ -1,11 +1,10 @@
 package com.codingcult.settingsconfig.controller;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
 import com.codingcult.settingsconfig.dto.LanguageDTO;
 import com.codingcult.settingsconfig.service.LanguageService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,8 +16,8 @@ public class LanguageController {
     private LanguageService languageService;
 
     @PostMapping
-    public LanguageDTO addLanguage(@RequestBody LanguageDTO languageDTO) {
-        return languageService.addLanguage(languageDTO);
+    public LanguageDTO addLanguage(@RequestBody LanguageDTO language) {
+        return languageService.addLanguage(language);
     }
 
     @GetMapping

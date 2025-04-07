@@ -18,48 +18,42 @@ public class LanguageDTO implements Serializable {
 
     @NotBlank(message = "Language code cannot be blank")
     @Column(name = "language_code", nullable = false, unique = true)
-    private String languageCode; // e.g., "en", "fr", "es"
+    private String languageCode;
 
     @Column(name = "is_default")
     private boolean isDefault;
 
+    @Column(name = "is_active")
+    private boolean isActive = true;
+
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
     public LanguageDTO() {}
 
-    public LanguageDTO(String languageName, String languageCode, boolean isDefault) {
+    public LanguageDTO(String languageName, String languageCode, boolean isDefault, String phoneNumber) {
         this.languageName = languageName;
         this.languageCode = languageCode;
         this.isDefault = isDefault;
+        this.phoneNumber = phoneNumber;
     }
 
-    public Long getId() {
-        return id;
-    }
+    // Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getLanguageName() { return languageName; }
+    public void setLanguageName(String languageName) { this.languageName = languageName; }
 
-    public String getLanguageName() {
-        return languageName;
-    }
+    public String getLanguageCode() { return languageCode; }
+    public void setLanguageCode(String languageCode) { this.languageCode = languageCode; }
 
-    public void setLanguageName(String languageName) {
-        this.languageName = languageName;
-    }
+    public boolean isDefault() { return isDefault; }
+    public void setDefault(boolean aDefault) { isDefault = aDefault; }
 
-    public String getLanguageCode() {
-        return languageCode;
-    }
+    public boolean isActive() { return isActive; }
+    public void setActive(boolean active) { isActive = active; }
 
-    public void setLanguageCode(String languageCode) {
-        this.languageCode = languageCode;
-    }
-
-    public boolean isDefault() {
-        return isDefault;
-    }
-
-    public void setDefault(boolean isDefault) {
-        this.isDefault = isDefault;
-    }
+    public String getPhoneNumber() { return phoneNumber; }
+    public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
 }

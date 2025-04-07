@@ -4,6 +4,6 @@ import com.codingcult.notifyme.dto.NotificationDto;
 import java.util.List;
 
 public interface NotificationService {
-    NotificationDto scheduleNotification(NotificationDto notificationDto); // Schedule a notification
-    void sendNotifications();  // Send notifications
+    NotificationDto scheduleNotification(NotificationDto notificationDto);
+    void sendNotifications();
 }

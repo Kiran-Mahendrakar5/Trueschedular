@@ -25,8 +25,8 @@ public class BillReminderServiceImpl implements BillReminderService {
     }
 
     @Override
-    public List<BillReminderDTO> getBillRemindersByUserEmail(String userEmail) {
-        return billReminderRepository.findByUserEmail(userEmail);
+    public List<BillReminderDTO> getBillRemindersByPhoneNumber(String phoneNumber) {
+        return billReminderRepository.findByPhoneNumber(phoneNumber);
     }
 
     @Override

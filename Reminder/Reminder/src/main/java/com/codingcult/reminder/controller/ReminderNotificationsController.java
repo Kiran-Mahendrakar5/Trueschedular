@@ -8,30 +8,24 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/notifications")
+@RequestMapping("/reminders")
 public class ReminderNotificationsController {
 
     @Autowired
-    private ReminderNotificationsService reminderNotificationsService;
+    private ReminderNotificationsService service;
 
-    @PostMapping
-    public ReminderNotificationsDTO createNotification(@RequestBody ReminderNotificationsDTO reminderNotificationsDTO) {
-        return reminderNotificationsService.createNotification(reminderNotificationsDTO);
+    @PostMapping("/add")
+    public void addNotification(@RequestBody ReminderNotificationsDTO notification) {
+        service.createNotification(notification);
     }
 
-    @GetMapping("/{userEmail}")
-    public List<ReminderNotificationsDTO> getNotificationsByUser(@PathVariable String userEmail) {
-        return reminderNotificationsService.getNotificationsByUser(userEmail);
+    @GetMapping("/all")
+    public List<ReminderNotificationsDTO> getAllActive() {
+        return service.getAllActiveNotifications();
     }
 
-    @GetMapping("/type/{notificationType}")
-    public List<ReminderNotificationsDTO> getNotificationsByType(@PathVariable String notificationType) {
-        return reminderNotificationsService.getNotificationsByType(notificationType);
-    }
-
-    @DeleteMapping("/{id}")
-    public String deleteNotification(@PathVariable Long id) {
-        reminderNotificationsService.deleteNotification(id);
-        return "Notification deleted successfully!";
+    @PutMapping("/deactivate/{id}")
+    public void deactivate(@PathVariable Long id) {
+        service.deactivateNotification(id);
     }
 }

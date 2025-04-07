@@ -1,11 +1,9 @@
 package com.codingcult.eventdetails.controller;
 
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
 import com.codingcult.eventdetails.dto.EventsDTO;
 import com.codingcult.eventdetails.service.EventsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,22 +16,27 @@ public class EventsController {
 
     @PostMapping
     public EventsDTO addEvent(@RequestBody EventsDTO eventsDTO) {
-        return eventsService.addEvent(eventsDTO);
+        return eventsService.save(eventsDTO);
     }
 
-    @GetMapping("/{userEmail}")
-    public List<EventsDTO> getEventsByUser(@PathVariable String userEmail) {
-        return eventsService.getEventsByUser(userEmail);
+    @GetMapping("/{phoneNumber}")
+    public List<EventsDTO> getEventsByUser(@PathVariable String phoneNumber) {
+        return eventsService.getByPhoneNumber(phoneNumber);
     }
 
-    @GetMapping("/eta")
-    public String calculateETA(@RequestParam String userLocation, @RequestParam String eventLocation) {
-        return eventsService.calculateETA(userLocation, eventLocation);
+    @GetMapping
+    public List<EventsDTO> getAllEvents() {
+        return eventsService.getAll();
+    }
+
+    @PutMapping("/{id}")
+    public EventsDTO updateEvent(@PathVariable Long id, @RequestBody EventsDTO dto) {
+        return eventsService.update(id, dto);
     }
 
     @DeleteMapping("/{id}")
     public String deleteEvent(@PathVariable Long id) {
-        eventsService.deleteEvent(id);
-        return "Event deleted successfully!";
+        boolean deleted = eventsService.delete(id);
+        return deleted ? "Event deleted successfully!" : "Event not found!";
     }
 }

@@ -34,6 +34,14 @@
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
+   <!-- pom.xml -->
+<dependency>
+  <groupId>com.google.firebase</groupId>
+  <artifactId>firebase-admin</artifactId>
+  <version>9.2.0</version>
+</dependency>
+
+
 
         <!-- Spring Boot Starter Validation -->
         <dependency>

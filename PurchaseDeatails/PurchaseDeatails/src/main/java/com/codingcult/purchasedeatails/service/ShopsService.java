@@ -1,14 +1,11 @@
 package com.codingcult.purchasedeatails.service;
 
-
-
-import java.util.List;
-
 import com.codingcult.purchasedeatails.dto.ShopsDto;
+import java.util.List;
 
 public interface ShopsService {
 
-    ShopsDto addShopData(ShopsDto shopsDto); // Add shop data
-    List<ShopsDto> getAllShopData();         // Get all shop data
+    ShopsDto addShopData(ShopsDto shopsDto);
+    List<ShopsDto> getAllShopData();
+    ShopsDto deactivateShop(Long id); // New method to soft delete
 }
-

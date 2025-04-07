@@ -19,7 +19,7 @@ public class LocationTrackingServiceImpl implements LocationTrackingService {
 
     public List<LocationTrackingDto> getAllLocations() {
         List<LocationTrackingDto> list = repository.findAll();
-        list.forEach(dto -> dto.setLocationUrl("https://www.google.com/maps?q=" + dto.getLatitude() + "," + dto.getLongitude()));
+        list.forEach(dto -> dto.setLocationUrl(dto.getLocationUrl()));
         return list;
     }
 

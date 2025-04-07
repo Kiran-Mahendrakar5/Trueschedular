@@ -1,18 +1,17 @@
 package com.codingcult.reminder.service;
 
 import com.codingcult.reminder.dto.ReminderNotificationsDTO;
-
 import java.util.List;
 
 public interface ReminderNotificationsService {
 
-    ReminderNotificationsDTO createNotification(ReminderNotificationsDTO reminderNotificationsDTO);
+    ReminderNotificationsDTO createNotification(ReminderNotificationsDTO dto);
 
-    List<ReminderNotificationsDTO> getNotificationsByUser(String userEmail);
+    List<ReminderNotificationsDTO> getAllActiveNotifications();
 
-    List<ReminderNotificationsDTO> getNotificationsByType(String notificationType);
+    void deactivateNotification(Long id);
 
     void sendScheduledNotifications();
 
-    void deleteNotification(Long id);
+    void sendNotificationToPhone(String phoneNumber, String message);
 }

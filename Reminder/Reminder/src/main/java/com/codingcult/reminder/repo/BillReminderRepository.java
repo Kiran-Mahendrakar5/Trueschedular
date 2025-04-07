@@ -9,8 +9,8 @@ import java.util.List;
 
 @Repository
 public interface BillReminderRepository extends JpaRepository<BillReminderDTO, Long> {
-    
-    List<BillReminderDTO> findByUserEmail(String userEmail);
+
+    List<BillReminderDTO> findByPhoneNumber(String phoneNumber);
 
     List<BillReminderDTO> findByDueDate(LocalDate dueDate);
 

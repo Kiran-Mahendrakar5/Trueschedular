@@ -2,7 +2,6 @@ package com.codingcult.settingsconfig.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.codingcult.settingsconfig.dto.NotificationSettingsDTO;
 import com.codingcult.settingsconfig.repo.NotificationSettingsRepository;
 
@@ -21,28 +20,29 @@ public class NotificationSettingsServiceImpl implements NotificationSettingsServ
     }
 
     @Override
-    public NotificationSettingsDTO getNotificationSettings(Long userId) {
-        return notificationSettingsRepository.findByUserId(userId)
-                .orElseThrow(() -> new RuntimeException("Notification settings not found for user ID: " + userId));
+    public NotificationSettingsDTO getNotificationSettings(String phoneNumber) {
+        return notificationSettingsRepository.findByPhoneNumber(phoneNumber)
+                .orElseThrow(() -> new RuntimeException("Notification settings not found for phone number: " + phoneNumber));
     }
 
     @Override
-    public NotificationSettingsDTO updateNotificationSettings(Long userId, NotificationSettingsDTO notificationSettingsDTO) {
-        NotificationSettingsDTO existingSettings = notificationSettingsRepository.findByUserId(userId)
-                .orElseThrow(() -> new RuntimeException("Notification settings not found for user ID: " + userId));
+    public NotificationSettingsDTO updateNotificationSettings(String phoneNumber, NotificationSettingsDTO notificationSettingsDTO) {
+        NotificationSettingsDTO existingSettings = notificationSettingsRepository.findByPhoneNumber(phoneNumber)
+                .orElseThrow(() -> new RuntimeException("Notification settings not found for phone number: " + phoneNumber));
 
         existingSettings.setNotificationSound(notificationSettingsDTO.isNotificationSound());
         existingSettings.setVibration(notificationSettingsDTO.isVibration());
         existingSettings.setPriority(notificationSettingsDTO.getPriority());
         existingSettings.setNotificationsRead(notificationSettingsDTO.isNotificationsRead());
+        existingSettings.setActive(notificationSettingsDTO.isActive());
 
         return notificationSettingsRepository.save(existingSettings);
     }
 
     @Override
-    public void markNotificationAsRead(Long userId) {
-        NotificationSettingsDTO settings = notificationSettingsRepository.findByUserId(userId)
-                .orElseThrow(() -> new RuntimeException("Notification settings not found for user ID: " + userId));
+    public void markNotificationAsRead(String phoneNumber) {
+        NotificationSettingsDTO settings = notificationSettingsRepository.findByPhoneNumber(phoneNumber)
+                .orElseThrow(() -> new RuntimeException("Notification settings not found for phone number: " + phoneNumber));
 
         settings.setNotificationsRead(true);
         notificationSettingsRepository.save(settings);

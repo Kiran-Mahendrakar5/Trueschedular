@@ -1,11 +1,9 @@
 package com.codingcult.purchasedeatails.service;
 
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.codingcult.purchasedeatails.dto.StockDto;
 import com.codingcult.purchasedeatails.repo.StockRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -16,26 +14,36 @@ public class StockServiceImpl implements StockService {
     private StockRepository stockRepository;
 
     @Override
-    public StockDto addStock(StockDto stockDto) {
-        return stockRepository.save(stockDto);  // Save stock data to the database
+    public StockDto save(StockDto stockDto) {
+        return stockRepository.save(stockDto);
     }
 
     @Override
-    public List<StockDto> getAllStocks() {
-        return stockRepository.findAll();  // Get all stocks from the database
+    public List<StockDto> getAll() {
+        return stockRepository.findByIsActiveTrue();
     }
 
     @Override
-    public StockDto getStockByItemName(String itemName) {
-        return stockRepository.findByItemName(itemName);  // Find stock by item name
+    public StockDto findByItemName(String itemName) {
+        return stockRepository.findByItemName(itemName);
     }
 
     @Override
-    public StockDto updateStockQuantity(String itemName, int quantity) {
-        StockDto stockDto = stockRepository.findByItemName(itemName);
-        if (stockDto != null) {
-            stockDto.setQuantity(stockDto.getQuantity() + quantity);  // Update stock quantity
-            return stockRepository.save(stockDto);  // Save the updated stock data
+    public StockDto updateQuantity(String itemName, int quantity) {
+        StockDto stock = stockRepository.findByItemName(itemName);
+        if (stock != null && stock.isActive()) {
+            stock.setQuantity(stock.getQuantity() + quantity);
+            return stockRepository.save(stock);
+        }
+        return null;
+    }
+
+    @Override
+    public StockDto deactivate(Long id) {
+        StockDto stock = stockRepository.findById(id).orElse(null);
+        if (stock != null) {
+            stock.setActive(false);
+            return stockRepository.save(stock);
         }
         return null;
     }

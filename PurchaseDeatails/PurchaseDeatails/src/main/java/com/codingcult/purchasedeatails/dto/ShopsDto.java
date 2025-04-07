@@ -1,14 +1,7 @@
 package com.codingcult.purchasedeatails.dto;
 
-
-
+import javax.persistence.*;
 import java.io.Serializable;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "shops")
@@ -16,22 +9,25 @@ public class ShopsDto implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;         // Shop ID
-    private String shopName; // Shop Name
-    private String location; // Shop Location
-    private String userName; // User who made the purchase
-    private String item;     // Item purchased in the shop
+    private Long id;
 
-    // Default constructor
+    private String shopName;
+    private String location;
+    private String userName;
+    private String item;
+    private String phoneNumber;
+    private boolean isActive = true;
+
     public ShopsDto() {}
 
-    // Constructor with all fields
-    public ShopsDto(Long id, String shopName, String location, String userName, String item) {
+    public ShopsDto(Long id, String shopName, String location, String userName, String item, String phoneNumber, boolean isActive) {
         this.id = id;
         this.shopName = shopName;
         this.location = location;
         this.userName = userName;
         this.item = item;
+        this.phoneNumber = phoneNumber;
+        this.isActive = isActive;
     }
 
     // Getters and Setters
@@ -49,5 +45,10 @@ public class ShopsDto implements Serializable {
 
     public String getItem() { return item; }
     public void setItem(String item) { this.item = item; }
-}
 
+    public String getPhoneNumber() { return phoneNumber; }
+    public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
+
+    public boolean isActive() { return isActive; }
+    public void setActive(boolean active) { isActive = active; }
+}

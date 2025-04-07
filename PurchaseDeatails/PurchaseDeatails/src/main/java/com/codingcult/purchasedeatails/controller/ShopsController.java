@@ -1,12 +1,9 @@
 package com.codingcult.purchasedeatails.controller;
 
-
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
 import com.codingcult.purchasedeatails.dto.ShopsDto;
 import com.codingcult.purchasedeatails.service.ShopsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,12 +16,17 @@ public class ShopsController {
 
     @PostMapping
     public ShopsDto addShopData(@RequestBody ShopsDto shopsDto) {
-        return shopsService.addShopData(shopsDto); // Return the saved shop data directly
+        return shopsService.addShopData(shopsDto);
     }
 
     @GetMapping
     public List<ShopsDto> getAllShopData() {
-        return shopsService.getAllShopData(); // Return all shop data directly
+        return shopsService.getAllShopData();
+    }
+
+    // Soft delete endpoint
+    @PutMapping("/deactivate/{id}")
+    public ShopsDto deactivateShop(@PathVariable Long id) {
+        return shopsService.deactivateShop(id);
     }
 }
-

@@ -14,9 +14,9 @@ public class EventsDTO implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "User email cannot be blank")
-    @Column(name = "user_email", nullable = false)
-    private String userEmail;
+    @NotBlank(message = "Phone number cannot be blank")
+    @Column(name = "phone_number", nullable = false)
+    private String phoneNumber;
 
     @NotBlank(message = "Event title cannot be blank")
     @Column(name = "event_title", nullable = false)
@@ -31,43 +31,79 @@ public class EventsDTO implements Serializable {
     private String location;
 
     @Column(name = "notify_before_minutes")
-    private Integer notifyBeforeMinutes; // Notify user X minutes before event
+    private Integer notifyBeforeMinutes;
+
+    @Column(name = "is_active")
+    private boolean isActive = true;
 
     public EventsDTO() {
-        super();
     }
 
-    public EventsDTO(Long id, String userEmail, String eventTitle, LocalDateTime eventTime, String location, Integer notifyBeforeMinutes) {
+    public EventsDTO(Long id, String phoneNumber, String eventTitle, LocalDateTime eventTime, String location, Integer notifyBeforeMinutes, boolean isActive) {
         this.id = id;
-        this.userEmail = userEmail;
+        this.phoneNumber = phoneNumber;
         this.eventTitle = eventTitle;
         this.eventTime = eventTime;
         this.location = location;
         this.notifyBeforeMinutes = notifyBeforeMinutes;
-    }
-
-    @Override
-    public String toString() {
-        return "EventsDTO [id=" + id + ", userEmail=" + userEmail + ", eventTitle=" + eventTitle +
-                ", eventTime=" + eventTime + ", location=" + location + ", notifyBeforeMinutes=" + notifyBeforeMinutes + "]";
+        this.isActive = isActive;
     }
 
     // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
 
-    public String getUserEmail() { return userEmail; }
-    public void setUserEmail(String userEmail) { this.userEmail = userEmail; }
+    public Long getId() {
+        return id;
+    }
 
-    public String getEventTitle() { return eventTitle; }
-    public void setEventTitle(String eventTitle) { this.eventTitle = eventTitle; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public LocalDateTime getEventTime() { return eventTime; }
-    public void setEventTime(LocalDateTime eventTime) { this.eventTime = eventTime; }
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
 
-    public String getLocation() { return location; }
-    public void setLocation(String location) { this.location = location; }
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 
-    public Integer getNotifyBeforeMinutes() { return notifyBeforeMinutes; }
-    public void setNotifyBeforeMinutes(Integer notifyBeforeMinutes) { this.notifyBeforeMinutes = notifyBeforeMinutes; }
+    public String getEventTitle() {
+        return eventTitle;
+    }
+
+    public void setEventTitle(String eventTitle) {
+        this.eventTitle = eventTitle;
+    }
+
+    public LocalDateTime getEventTime() {
+        return eventTime;
+    }
+
+    public void setEventTime(LocalDateTime eventTime) {
+        this.eventTime = eventTime;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public Integer getNotifyBeforeMinutes() {
+        return notifyBeforeMinutes;
+    }
+
+    public void setNotifyBeforeMinutes(Integer notifyBeforeMinutes) {
+        this.notifyBeforeMinutes = notifyBeforeMinutes;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
 }

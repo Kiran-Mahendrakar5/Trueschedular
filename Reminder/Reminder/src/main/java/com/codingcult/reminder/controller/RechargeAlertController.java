@@ -1,8 +1,6 @@
 package com.codingcult.reminder.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.codingcult.reminder.dto.RechargeAlertDTO;
@@ -19,32 +17,28 @@ public class RechargeAlertController {
     private RechargeAlertService rechargeAlertService;
 
     @PostMapping
-    public ResponseEntity<RechargeAlertDTO> createAlert(@Valid @RequestBody RechargeAlertDTO alertDto) {
-        RechargeAlertDTO createdAlert = rechargeAlertService.createRechargeAlert(alertDto);
-        return new ResponseEntity<>(createdAlert, HttpStatus.CREATED);
+    public RechargeAlertDTO createAlert(@Valid @RequestBody RechargeAlertDTO alertDto) {
+        return rechargeAlertService.createRechargeAlert(alertDto);
     }
 
     @GetMapping
-    public ResponseEntity<List<RechargeAlertDTO>> getAllAlerts() {
-        List<RechargeAlertDTO> alerts = rechargeAlertService.getAllAlerts();
-        return new ResponseEntity<>(alerts, HttpStatus.OK);
+    public List<RechargeAlertDTO> getAllAlerts() {
+        return rechargeAlertService.getAllAlerts();
     }
 
     @GetMapping("/{mobileNumber}")
-    public ResponseEntity<List<RechargeAlertDTO>> getAlertsByMobile(@PathVariable String mobileNumber) {
-        List<RechargeAlertDTO> alerts = rechargeAlertService.getAlertsByMobileNumber(mobileNumber);
-        return new ResponseEntity<>(alerts, HttpStatus.OK);
+    public List<RechargeAlertDTO> getAlertsByMobile(@PathVariable String mobileNumber) {
+        return rechargeAlertService.getAlertsByMobileNumber(mobileNumber);
     }
 
     @GetMapping("/low-balance")
-    public ResponseEntity<List<RechargeAlertDTO>> getLowBalanceAlerts() {
-        List<RechargeAlertDTO> alerts = rechargeAlertService.getLowBalanceAlerts();
-        return new ResponseEntity<>(alerts, HttpStatus.OK);
+    public List<RechargeAlertDTO> getLowBalanceAlerts() {
+        return rechargeAlertService.getLowBalanceAlerts();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteAlert(@PathVariable Long id) {
+    public String deleteAlert(@PathVariable Long id) {
         rechargeAlertService.deleteAlert(id);
-        return new ResponseEntity<>("Alert deleted successfully!", HttpStatus.OK);
+        return "Alert deleted successfully!";
     }
 }

@@ -1,11 +1,11 @@
 package com.codingcult.settingsconfig.service;
 
-import java.util.List;
-
 import com.codingcult.settingsconfig.dto.LanguageDTO;
 
+import java.util.List;
+
 public interface LanguageService {
-    LanguageDTO addLanguage(LanguageDTO languageDTO);
+	LanguageDTO addLanguage(LanguageDTO language);
     List<LanguageDTO> getAllLanguages();
     LanguageDTO changeDefaultLanguage(String languageCode);
     LanguageDTO getDefaultLanguage();

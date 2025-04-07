@@ -18,23 +18,22 @@ public class FriendsServiceImpl implements FriendsService {
 
     @Override
     public FriendsDTO addFriend(FriendsDTO friendDTO) {
-        Optional<FriendsDTO> existingFriend = friendsRepository.findByUserEmailAndFriendEmail(friendDTO.getUserEmail(), friendDTO.getFriendEmail());
-        
-        if (existingFriend.isPresent()) {
-            throw new RuntimeException("Friend already exists in your friend list!");
+        Optional<FriendsDTO> existing = friendsRepository.findByPhoneNumber(friendDTO.getPhoneNumber());
+        if (existing.isPresent()) {
+            throw new RuntimeException("Friend with this phone number already exists!");
         }
-
         return friendsRepository.save(friendDTO);
     }
 
     @Override
-    public List<FriendsDTO> getFriendsByUser(String userEmail) {
-        return friendsRepository.findByUserEmail(userEmail);
+    public List<FriendsDTO> getAllActiveFriends() {
+        return friendsRepository.findAllByIsActiveTrue();
     }
 
     @Override
     public boolean enableLocationTracking(Long friendId) {
-        FriendsDTO friend = friendsRepository.findById(friendId).orElseThrow(() -> new RuntimeException("Friend not found!"));
+        FriendsDTO friend = friendsRepository.findById(friendId)
+                .orElseThrow(() -> new RuntimeException("Friend not found!"));
         friend.setLocationTrackingEnabled(true);
         friendsRepository.save(friend);
         return true;
@@ -42,6 +41,9 @@ public class FriendsServiceImpl implements FriendsService {
 
     @Override
     public void removeFriend(Long friendId) {
-        friendsRepository.deleteById(friendId);
+        FriendsDTO friend = friendsRepository.findById(friendId)
+                .orElseThrow(() -> new RuntimeException("Friend not found!"));
+        friend.setActive(false);
+        friendsRepository.save(friend); // Soft delete
     }
 }

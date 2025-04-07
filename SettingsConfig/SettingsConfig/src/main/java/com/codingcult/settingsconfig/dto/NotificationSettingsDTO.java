@@ -11,33 +11,37 @@ public class NotificationSettingsDTO {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
+    @Column(name = "phone_number", nullable = false, unique = true)
+    private String phoneNumber;
 
     @Column(name = "notification_sound")
-    private boolean notificationSound; // true if sound is enabled, false otherwise
+    private boolean notificationSound;
 
     @Column(name = "vibration")
-    private boolean vibration; // true if vibration is enabled, false otherwise
+    private boolean vibration;
 
     @Column(name = "priority")
-    private String priority; // HIGH, MEDIUM, LOW
+    private String priority;
 
     @Column(name = "notifications_read")
-    private boolean notificationsRead; // to track if notifications are read or unread
+    private boolean notificationsRead;
 
     @Column(name = "last_notification_time")
     private LocalDateTime lastNotificationTime;
 
+    @Column(name = "is_active")
+    private boolean isActive = true;
+
     public NotificationSettingsDTO() {}
 
-    public NotificationSettingsDTO(Long userId, boolean notificationSound, boolean vibration, String priority, boolean notificationsRead, LocalDateTime lastNotificationTime) {
-        this.userId = userId;
+    public NotificationSettingsDTO(String phoneNumber, boolean notificationSound, boolean vibration, String priority, boolean notificationsRead, LocalDateTime lastNotificationTime, boolean isActive) {
+        this.phoneNumber = phoneNumber;
         this.notificationSound = notificationSound;
         this.vibration = vibration;
         this.priority = priority;
         this.notificationsRead = notificationsRead;
         this.lastNotificationTime = lastNotificationTime;
+        this.isActive = isActive;
     }
 
     public Long getId() {
@@ -48,12 +52,12 @@ public class NotificationSettingsDTO {
         this.id = id;
     }
 
-    public Long getUserId() {
-        return userId;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public boolean isNotificationSound() {
@@ -94,5 +98,13 @@ public class NotificationSettingsDTO {
 
     public void setLastNotificationTime(LocalDateTime lastNotificationTime) {
         this.lastNotificationTime = lastNotificationTime;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }

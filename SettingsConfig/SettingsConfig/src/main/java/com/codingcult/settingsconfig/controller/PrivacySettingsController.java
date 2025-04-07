@@ -16,7 +16,6 @@ public class PrivacySettingsController {
     @PostMapping("/{userId}")
     public PrivacySettingsDTO createPrivacySettings(@PathVariable Long userId,
                                                     @RequestBody PrivacySettingsDTO privacySettingsDTO) {
-        System.out.println("Received userId: " + userId);  // Log userId
         return privacySettingsService.savePrivacySettings(userId, privacySettingsDTO);
     }
 

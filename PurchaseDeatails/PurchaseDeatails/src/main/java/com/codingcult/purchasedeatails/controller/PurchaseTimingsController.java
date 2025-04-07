@@ -1,7 +1,5 @@
 package com.codingcult.purchasedeatails.controller;
 
-
-
 import com.codingcult.purchasedeatails.dto.PurchaseTimingsDto;
 import com.codingcult.purchasedeatails.service.PurchaseTimingsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,21 +14,18 @@ public class PurchaseTimingsController {
     @Autowired
     private PurchaseTimingsService purchaseTimingsService;
 
-    // Endpoint to add new purchase timing
     @PostMapping
     public PurchaseTimingsDto addPurchaseTiming(@RequestBody PurchaseTimingsDto purchaseTiming) {
-        return purchaseTimingsService.addPurchaseTiming(purchaseTiming);  // Add purchase timing to database
+        return purchaseTimingsService.addPurchaseTiming(purchaseTiming);
     }
 
-    // Endpoint to get all purchase timings
     @GetMapping
     public List<PurchaseTimingsDto> getAllPurchaseTimings() {
-        return purchaseTimingsService.getAllPurchaseTimings();  // Retrieve all purchase timings from database
+        return purchaseTimingsService.getAllPurchaseTimings();
     }
 
-    // Endpoint to get purchase timings by item name
     @GetMapping("/{item}")
     public List<PurchaseTimingsDto> getPurchaseTimings(@PathVariable String item) {
-        return purchaseTimingsService.getPurchaseTimingsByItem(item);  // Retrieve purchase timings for a specific item
+        return purchaseTimingsService.getPurchaseTimingsByItem(item);
     }
 }

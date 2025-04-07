@@ -14,8 +14,8 @@ public class PrivacySettingsServiceImpl implements PrivacySettingsService {
 
     @Override
     public PrivacySettingsDTO savePrivacySettings(Long userId, PrivacySettingsDTO privacySettingsDTO) {
-        // You can directly save the PrivacySettingsDTO as an entity
         privacySettingsDTO.setUserId(userId);
+        privacySettingsDTO.setIsActive(true);
         return privacySettingsRepository.save(privacySettingsDTO);
     }
 
