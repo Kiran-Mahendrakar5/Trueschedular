@@ -1,21 +1,23 @@
 package com.codingcult.activitylog.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
 import com.codingcult.activitylog.dto.Scheduling_UserPurchaseDto;
 import com.codingcult.activitylog.service.SchedulingUserPurchaseService;
+import com.codingcult.eventdetails.dto.EventDetailsDTO;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/purchases")
+@RequestMapping("/api/activitylog")
 public class SchedulingUserPurchaseController {
 
     @Autowired
     private SchedulingUserPurchaseService service;
-
+    
+  
     @PostMapping
     public Scheduling_UserPurchaseDto createPurchase(@RequestBody Scheduling_UserPurchaseDto purchase) {
         return service.savePurchase(purchase);
@@ -32,18 +34,20 @@ public class SchedulingUserPurchaseController {
     }
 
     @PutMapping("/{id}")
-    public Scheduling_UserPurchaseDto updatePurchase(@PathVariable Long id,
-                                                     @RequestBody Scheduling_UserPurchaseDto purchaseDetails) {
+    public Scheduling_UserPurchaseDto updatePurchase(@PathVariable Long id, @RequestBody Scheduling_UserPurchaseDto purchaseDetails) {
         return service.updatePurchase(id, purchaseDetails);
     }
 
     @DeleteMapping("/{id}")
     public String deletePurchase(@PathVariable Long id) {
         int result = service.deletePurchase(id);
-        if (result == 1) {
-            return "Purchase with ID " + id + " deleted (soft delete) successfully.";
-        } else {
-            return "Purchase with ID " + id + " not found or already deleted.";
-        }
+        return result == 1 ?
+                "Purchase with ID " + id + " deleted (soft delete) successfully." :
+                "Purchase with ID " + id + " not found or already deleted.";
+    }
+    
+    @GetMapping("/events/phone/{phoneNumber}")
+    public List<EventDetailsDTO> getEventsByPhone(@PathVariable String phoneNumber) {
+        return service.getEventsByPhoneNumber(phoneNumber);
     }
 }

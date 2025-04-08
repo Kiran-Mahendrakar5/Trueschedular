@@ -42,17 +42,7 @@
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
 
-        <!-- Eureka Client -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-        </dependency>
-
-        <!-- Feign Client -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
-        </dependency>
+       
 
         <!-- Lombok -->
         <dependency>
@@ -61,6 +51,7 @@
             <version>1.18.30</version>
             <scope>provided</scope>
         </dependency>
+
 
         <!-- MySQL Connector -->
         <dependency>
@@ -103,7 +94,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring-cloud.version}</version>
+                <version>2021.0.8</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

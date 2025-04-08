@@ -1,77 +1,54 @@
 package com.codingcult.eventdetails.controller;
 
 import com.codingcult.eventdetails.dto.EventDetailsDTO;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.*;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.RestTemplate;
+import com.codingcult.eventdetails.service.EventDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
 
-@Service
+@RestController
+@RequestMapping("/api/event-details")
 public class EventDetailsController {
 
-    private final RestTemplate restTemplate;
+    @Autowired
+    private EventDetailsService service;
 
-    @Value("${event.details.service.url}")
-    private String BASE_URL;
-
-    public EventDetailsController(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
+    // Create a new event
+    @PostMapping
+    public EventDetailsDTO createEvent(@RequestBody EventDetailsDTO dto) {
+        return service.createEvent(dto);
     }
 
-    public List<EventDetailsDTO> fetchAllEvents() {
-        try {
-            ResponseEntity<List<EventDetailsDTO>> response = restTemplate.exchange(
-                BASE_URL,
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<List<EventDetailsDTO>>() {}
-            );
-            return response.getBody();
-        } catch (RestClientException e) {
-            e.printStackTrace();
-            return Collections.emptyList();
-        }
+    // Update an event
+    @PutMapping("/{id}")
+    public EventDetailsDTO updateEvent(@PathVariable Long id, @RequestBody EventDetailsDTO dto) {
+        return service.updateEvent(id, dto);
     }
 
-    public EventDetailsDTO getEventById(Long id) {
-        try {
-            return restTemplate.getForObject(BASE_URL + "/" + id, EventDetailsDTO.class);
-        } catch (RestClientException e) {
-            e.printStackTrace();
-            return null;
-        }
+    // Soft delete an event
+    @DeleteMapping("/{id}")
+    public String deleteEvent(@PathVariable Long id) {
+        boolean deleted = service.deleteEvent(id);
+        return deleted ? "Event soft deleted successfully" : "Event not found";
     }
 
-    public List<EventDetailsDTO> getEventsByPhone(String phoneNumber) {
-        try {
-            String url = BASE_URL + "/phone/" + phoneNumber;
-            ResponseEntity<List<EventDetailsDTO>> response = restTemplate.exchange(
-                url,
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<List<EventDetailsDTO>>() {}
-            );
-            return response.getBody();
-        } catch (RestClientException e) {
-            e.printStackTrace();
-            return Collections.emptyList();
-        }
+    // Get event by ID
+    @GetMapping("/{id}")
+    public EventDetailsDTO getEventById(@PathVariable Long id) {
+        EventDetailsDTO dto = service.getEventById(id);
+        return (dto != null && dto.isActive()) ? dto : null;
     }
 
-    public EventDetailsDTO createEvent(EventDetailsDTO dto) {
-        try {
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<EventDetailsDTO> request = new HttpEntity<>(dto, headers);
-            return restTemplate.postForObject(BASE_URL, request, EventDetailsDTO.class);
-        } catch (RestClientException e) {
-            e.printStackTrace();
-            return null;
-        }
+    // Get all active events
+    @GetMapping
+    public List<EventDetailsDTO> getAllEvents() {
+        return service.getAllEvents();
+    }
+
+    // Get events by phone number
+    @GetMapping("/phone/{phoneNumber}")
+    public List<EventDetailsDTO> getEventsByPhoneNumber(@PathVariable String phoneNumber) {
+        return service.getEventsByPhoneNumber(phoneNumber);
     }
 }
