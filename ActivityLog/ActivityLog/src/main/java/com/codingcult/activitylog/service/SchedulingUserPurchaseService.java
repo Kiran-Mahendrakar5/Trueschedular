@@ -1,13 +1,13 @@
 package com.codingcult.activitylog.service;
 
-import java.util.List;
-import java.util.Optional;
-
 import com.codingcult.activitylog.dto.Scheduling_UserPurchaseDto;
 import com.codingcult.activitylog.repo.SchedulingUserPurchaseRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SchedulingUserPurchaseService implements SchedulingUserPurchaseServiceInterface {
@@ -15,42 +15,39 @@ public class SchedulingUserPurchaseService implements SchedulingUserPurchaseServ
     @Autowired
     private SchedulingUserPurchaseRepository repository;
 
-    public Scheduling_UserPurchaseDto savePurchase(Scheduling_UserPurchaseDto purchase) {
-        purchase.setActive(true);
-        return repository.save(purchase);
+    @Override
+    public Scheduling_UserPurchaseDto savePurchase(Scheduling_UserPurchaseDto dto) {
+        return repository.save(dto);
     }
 
+    @Override
     public List<Scheduling_UserPurchaseDto> getAllPurchases() {
-        return repository.findByIsActiveTrue(); // Only active
+        return repository.findByIsActiveTrue();
     }
 
+    @Override
     public Optional<Scheduling_UserPurchaseDto> getPurchaseById(Long id) {
-        return repository.findById(id).filter(Scheduling_UserPurchaseDto::isActive); // Only if active
+        return repository.findById(id).filter(Scheduling_UserPurchaseDto::isActive);
     }
 
-    public Scheduling_UserPurchaseDto updatePurchase(Long id, Scheduling_UserPurchaseDto purchaseDetails) {
-        return repository.findById(id).map(purchase -> {
-            if (!purchase.isActive()) {
-                throw new RuntimeException("Cannot update deleted purchase.");
-            }
-            purchase.setUserName(purchaseDetails.getUserName());
-            purchase.setItem(purchaseDetails.getItem());
-            purchase.setAmount(purchaseDetails.getAmount());
-            purchase.setLocation(purchaseDetails.getLocation());
-            purchase.setPurchaseTime(purchaseDetails.getPurchaseTime());
-            return repository.save(purchase);
-        }).orElseThrow(() -> new RuntimeException("Purchase not found with ID: " + id));
+    @Override
+    public Scheduling_UserPurchaseDto updatePurchase(Long id, Scheduling_UserPurchaseDto newDto) {
+        return repository.findById(id).map(existing -> {
+            existing.setUserName(newDto.getUserName());
+            existing.setItem(newDto.getItem());
+            existing.setAmount(newDto.getAmount());
+            existing.setLocation(newDto.getLocation());
+            existing.setPurchaseTime(newDto.getPurchaseTime());
+            return repository.save(existing);
+        }).orElseThrow(() -> new RuntimeException("Purchase not found"));
     }
 
-    // 🔥 Soft delete
+    @Override
     public int deletePurchase(Long id) {
-        Optional<Scheduling_UserPurchaseDto> purchaseOpt = repository.findById(id);
-        if (purchaseOpt.isPresent() && purchaseOpt.get().isActive()) {
-            Scheduling_UserPurchaseDto purchase = purchaseOpt.get();
-            purchase.setActive(false);
-            repository.save(purchase);
+        return repository.findById(id).map(p -> {
+            p.setActive(false);
+            repository.save(p);
             return 1;
-        }
-        return 0;
+        }).orElse(0);
     }
 }
