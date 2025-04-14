@@ -1,48 +1,32 @@
 package com.codingcult.reminder.controller;
 
-import com.codingcult.reminder.dto.BillReminderDTO;
+import com.codingcult.reminder.dto.BillReminderDto;
 import com.codingcult.reminder.service.BillReminderService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/bill-reminders")
+@RequestMapping("/billReminder")
 public class BillReminderController {
 
     @Autowired
-    private BillReminderService billReminderService;
+    private BillReminderService service;
 
-    @PostMapping
-    public BillReminderDTO createBillReminder(@Valid @RequestBody BillReminderDTO billReminderDTO) {
-        return billReminderService.createBillReminder(billReminderDTO);
+    @PostMapping("/add")
+    public String addReminder(@RequestBody BillReminderDto dto) {
+        return service.addBillReminder(dto);
     }
 
-    @GetMapping
-    public List<BillReminderDTO> getAllBillReminders() {
-        return billReminderService.getAllBillReminders();
+    @GetMapping("/all")
+    public List<BillReminderDto> getAll() {
+        return service.getAllActiveBills();
     }
 
-    @GetMapping("/{phoneNumber}")
-    public List<BillReminderDTO> getBillRemindersByPhoneNumber(@PathVariable String phoneNumber) {
-        return billReminderService.getBillRemindersByPhoneNumber(phoneNumber);
-    }
-
-    @GetMapping("/due-bills")
-    public List<BillReminderDTO> getDueBills() {
-        return billReminderService.getDueBills();
-    }
-
-    @GetMapping("/auto-payment")
-    public List<BillReminderDTO> getAutoPaymentBills() {
-        return billReminderService.getAutoPaymentBills();
-    }
-
-    @DeleteMapping("/{id}")
-    public String deleteBillReminder(@PathVariable Long id) {
-        billReminderService.deleteBillReminder(id);
-        return "Bill reminder deleted successfully!";
+    @GetMapping("/type/{type}")
+    public List<BillReminderDto> getByType(@PathVariable String type) {
+        return service.getBillsByType(type);
     }
 }

@@ -1,60 +1,40 @@
 package com.codingcult.reminder.service;
 
-import com.codingcult.reminder.dto.ReminderDTO;
+import com.codingcult.reminder.dto.ReminderDto;
 import com.codingcult.reminder.repo.ReminderRepository;
+import com.codingcult.reminder.service.ReminderService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ReminderServiceImpl implements ReminderService {
 
     @Autowired
-    private ReminderRepository reminderRepository;
+    private ReminderRepository repository;
 
     @Override
-    public ReminderDTO createReminder(ReminderDTO reminder) {
-        return reminderRepository.save(reminder);
+    public String saveReminder(ReminderDto dto) {
+        repository.save(dto);
+        return "Reminder saved successfully.";
     }
 
     @Override
-    public List<ReminderDTO> getAllReminders() {
-        return reminderRepository.findByIsActiveTrue();
+    public List<ReminderDto> getAllActiveReminders() {
+        return repository.findByIsActiveTrue();
     }
 
     @Override
-    public Optional<ReminderDTO> getReminderById(Long id) {
-        Optional<ReminderDTO> reminder = reminderRepository.findById(id);
-        return reminder.filter(ReminderDTO::isActive);
+    public List<ReminderDto> getRemindersByCategory(String category) {
+        return repository.findByCategory(category);
     }
 
     @Override
-    public List<ReminderDTO> getRemindersByPhone(String phoneNumber) {
-        return reminderRepository.findByPhoneNumber(phoneNumber)
-                .stream()
-                .filter(ReminderDTO::isActive)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public ReminderDTO updateReminder(Long id, ReminderDTO updatedReminder) {
-        Optional<ReminderDTO> existing = reminderRepository.findById(id);
-        if (existing.isPresent() && existing.get().isActive()) {
-            updatedReminder.setId(id);
-            updatedReminder.setActive(true);
-            return reminderRepository.save(updatedReminder);
-        }
-        return null;
-    }
-
-    @Override
-    public void deleteReminder(Long id) {
-        reminderRepository.findById(id).ifPresent(reminder -> {
-            reminder.setActive(false);
-            reminderRepository.save(reminder);
-        });
+    public void sendReminder(String phoneOrEmail, String message) {
+        // You can implement SMS or Push notification logic here
+        // For now, we log the reminder to the console
+        System.out.println("Sending reminder to " + phoneOrEmail + ": " + message);
     }
 }

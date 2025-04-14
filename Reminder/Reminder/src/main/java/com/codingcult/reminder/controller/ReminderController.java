@@ -1,52 +1,39 @@
 package com.codingcult.reminder.controller;
 
-import com.codingcult.reminder.dto.ReminderDTO;
+import com.codingcult.reminder.dto.CalendarEventDto;
+import com.codingcult.reminder.dto.ReminderDto;
 import com.codingcult.reminder.service.ReminderService;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/reminders")
 public class ReminderController {
 
     @Autowired
-    private ReminderService reminderService;
+    private ReminderService service;
 
-    @PostMapping("/event")
-    public ReminderDTO createEventReminder(@RequestBody ReminderDTO reminder) {
-        return reminderService.createReminder(reminder);
+    @PostMapping("/from-calendar")
+    public ResponseEntity<String> createReminderFromCalendar(@RequestBody CalendarEventDto event) {
+        // Handle the reminder creation
+        System.out.println("Received event for reminder: " + event);
+        return ResponseEntity.ok("Reminder created successfully.");
+    
     }
 
-    @PostMapping("/bday")
-    public ReminderDTO createBirthdayReminder(@RequestBody ReminderDTO reminder) {
-        return reminderService.createReminder(reminder);
+
+    @GetMapping("/all")
+    public List<ReminderDto> getAllReminders() {
+        return service.getAllActiveReminders();
     }
 
-    @GetMapping
-    public List<ReminderDTO> getAllReminders() {
-        return reminderService.getAllReminders();
-    }
-
-    @GetMapping("/{id}")
-    public Optional<ReminderDTO> getReminderById(@PathVariable Long id) {
-        return reminderService.getReminderById(id);
-    }
-
-    @GetMapping("/phone/{phoneNumber}")
-    public List<ReminderDTO> getRemindersByPhone(@PathVariable String phoneNumber) {
-        return reminderService.getRemindersByPhone(phoneNumber);
-    }
-
-    @PutMapping("/{id}")
-    public ReminderDTO updateReminder(@PathVariable Long id, @RequestBody ReminderDTO updatedReminder) {
-        return reminderService.updateReminder(id, updatedReminder);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteReminder(@PathVariable Long id) {
-        reminderService.deleteReminder(id);
+    @GetMapping("/category/{category}")
+    public List<ReminderDto> getByCategory(@PathVariable String category) {
+        return service.getRemindersByCategory(category);
     }
 }

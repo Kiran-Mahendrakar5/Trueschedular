@@ -1,44 +1,34 @@
 package com.codingcult.reminder.controller;
 
+import com.codingcult.reminder.dto.RechargeAlertDto;
+import com.codingcult.reminder.service.RechargeAlertService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.codingcult.reminder.dto.RechargeAlertDTO;
-import com.codingcult.reminder.service.RechargeAlertService;
-
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/recharge-alerts")
+@RequestMapping("/rechargeAlert")
 public class RechargeAlertController {
 
     @Autowired
     private RechargeAlertService rechargeAlertService;
 
-    @PostMapping
-    public RechargeAlertDTO createAlert(@Valid @RequestBody RechargeAlertDTO alertDto) {
-        return rechargeAlertService.createRechargeAlert(alertDto);
+    // Endpoint to add a recharge alert
+    @PostMapping("/add")
+    public String addRechargeAlert(@RequestBody RechargeAlertDto dto) {
+        return rechargeAlertService.addRechargeAlert(dto);
     }
 
-    @GetMapping
-    public List<RechargeAlertDTO> getAllAlerts() {
-        return rechargeAlertService.getAllAlerts();
+    // Endpoint to get all recharge alerts
+    @GetMapping("/all")
+    public List<RechargeAlertDto> getAllRechargeAlerts() {
+        return rechargeAlertService.getAll();
     }
 
-    @GetMapping("/{mobileNumber}")
-    public List<RechargeAlertDTO> getAlertsByMobile(@PathVariable String mobileNumber) {
-        return rechargeAlertService.getAlertsByMobileNumber(mobileNumber);
-    }
-
-    @GetMapping("/low-balance")
-    public List<RechargeAlertDTO> getLowBalanceAlerts() {
-        return rechargeAlertService.getLowBalanceAlerts();
-    }
-
-    @DeleteMapping("/{id}")
-    public String deleteAlert(@PathVariable Long id) {
-        rechargeAlertService.deleteAlert(id);
-        return "Alert deleted successfully!";
+    // Endpoint to get a recharge alert by id
+    @GetMapping("/{id}")
+    public RechargeAlertDto getRechargeAlertById(@PathVariable int id) {
+        return rechargeAlertService.getById(id); // assuming this method is implemented in the service layer
     }
 }

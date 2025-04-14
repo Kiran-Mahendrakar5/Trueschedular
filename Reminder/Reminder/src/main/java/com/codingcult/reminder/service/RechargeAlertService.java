@@ -1,17 +1,14 @@
 package com.codingcult.reminder.service;
 
-import com.codingcult.reminder.dto.RechargeAlertDTO;
+import com.codingcult.reminder.dto.RechargeAlertDto;
+
 import java.util.List;
 
 public interface RechargeAlertService {
+    String addRechargeAlert(RechargeAlertDto dto);
+    List<RechargeAlertDto> getAll();
+    void checkAndSendRechargeAlerts();
+    public RechargeAlertDto getById(int id);
+  
 
-    RechargeAlertDTO createRechargeAlert(RechargeAlertDTO alertDto);
-
-    List<RechargeAlertDTO> getAllAlerts();
-
-    List<RechargeAlertDTO> getAlertsByMobileNumber(String mobileNumber);
-
-    List<RechargeAlertDTO> getLowBalanceAlerts();
-
-    void deleteAlert(Long id);
 }

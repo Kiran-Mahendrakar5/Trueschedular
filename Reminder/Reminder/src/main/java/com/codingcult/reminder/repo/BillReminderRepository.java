@@ -1,18 +1,11 @@
 package com.codingcult.reminder.repo;
 
+import com.codingcult.reminder.dto.BillReminderDto;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-import com.codingcult.reminder.dto.BillReminderDTO;
 
-import java.time.LocalDate;
 import java.util.List;
 
-@Repository
-public interface BillReminderRepository extends JpaRepository<BillReminderDTO, Long> {
-
-    List<BillReminderDTO> findByPhoneNumber(String phoneNumber);
-
-    List<BillReminderDTO> findByDueDate(LocalDate dueDate);
-
-    List<BillReminderDTO> findByAutoPaymentEnabledTrue();
+public interface BillReminderRepository extends JpaRepository<BillReminderDto, Integer> {
+    List<BillReminderDto> findByIsActiveTrue();
+    List<BillReminderDto> findByBillType(String billType);
 }

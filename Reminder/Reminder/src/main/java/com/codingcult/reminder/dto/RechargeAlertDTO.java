@@ -1,63 +1,32 @@
 package com.codingcult.reminder.dto;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "recharge_alerts")
-public class RechargeAlertDTO implements Serializable {
+public class RechargeAlertDto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
-    @NotBlank(message = "Mobile number cannot be blank")
-    @Column(name = "mobile_number", nullable = false)
     private String mobileNumber;
-
-    @NotNull(message = "Balance cannot be null")
-    @Min(value = 0, message = "Balance must be a positive value")
-    @Column(name = "balance", nullable = false)
-    private Double balance;
-
-    @NotNull(message = "Threshold cannot be null")
-    @Min(value = 1, message = "Threshold must be greater than 0")
-    @Column(name = "threshold", nullable = false)
-    private Double threshold;
-
-    @NotBlank(message = "Plan name cannot be blank")
-    @Column(name = "plan_name", nullable = false)
-    private String planName;
-
-    @NotNull(message = "Price cannot be null")
-    @Min(value = 1, message = "Price must be greater than 0")
-    @Column(name = "price", nullable = false)
-    private Double price;
-
-    @NotBlank(message = "Validity cannot be blank")
-    @Column(name = "validity", nullable = false)
-    private String validity;
-
-    @NotBlank(message = "Data limit cannot be blank")
-    @Column(name = "data_limit", nullable = false)
-    private String dataLimit;
-
-    @Column(name = "is_active")
+    private String operator;
+    private LocalDate lastRechargeDate;
+    private int validityPeriodDays; // e.g., 28 days
+    private boolean alertSent;
     private boolean isActive = true;
 
-    public RechargeAlertDTO() {
-    }
+    public RechargeAlertDto() {}
 
-    // Getters and Setters
+    // Getters & Setters
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -69,52 +38,36 @@ public class RechargeAlertDTO implements Serializable {
         this.mobileNumber = mobileNumber;
     }
 
-    public Double getBalance() {
-        return balance;
+    public String getOperator() {
+        return operator;
     }
 
-    public void setBalance(Double balance) {
-        this.balance = balance;
+    public void setOperator(String operator) {
+        this.operator = operator;
     }
 
-    public Double getThreshold() {
-        return threshold;
+    public LocalDate getLastRechargeDate() {
+        return lastRechargeDate;
     }
 
-    public void setThreshold(Double threshold) {
-        this.threshold = threshold;
+    public void setLastRechargeDate(LocalDate lastRechargeDate) {
+        this.lastRechargeDate = lastRechargeDate;
     }
 
-    public String getPlanName() {
-        return planName;
+    public int getValidityPeriodDays() {
+        return validityPeriodDays;
     }
 
-    public void setPlanName(String planName) {
-        this.planName = planName;
+    public void setValidityPeriodDays(int validityPeriodDays) {
+        this.validityPeriodDays = validityPeriodDays;
     }
 
-    public Double getPrice() {
-        return price;
+    public boolean isAlertSent() {
+        return alertSent;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public String getValidity() {
-        return validity;
-    }
-
-    public void setValidity(String validity) {
-        this.validity = validity;
-    }
-
-    public String getDataLimit() {
-        return dataLimit;
-    }
-
-    public void setDataLimit(String dataLimit) {
-        this.dataLimit = dataLimit;
+    public void setAlertSent(boolean alertSent) {
+        this.alertSent = alertSent;
     }
 
     public boolean isActive() {
@@ -123,5 +76,18 @@ public class RechargeAlertDTO implements Serializable {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    @Override
+    public String toString() {
+        return "RechargeAlertDto{" +
+                "id=" + id +
+                ", mobileNumber='" + mobileNumber + '\'' +
+                ", operator='" + operator + '\'' +
+                ", lastRechargeDate=" + lastRechargeDate +
+                ", validityPeriodDays=" + validityPeriodDays +
+                ", alertSent=" + alertSent +
+                ", isActive=" + isActive +
+                '}';
     }
 }
