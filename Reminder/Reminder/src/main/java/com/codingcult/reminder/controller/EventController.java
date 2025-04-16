@@ -19,6 +19,10 @@ public class EventController {
     public EventController(EventServiceInterface eventService) {
         this.eventService = eventService;
     }
+    @PostMapping("/createOrUpdate")
+    public EventDto createOrUpdateEvent(@RequestBody EventDto eventDto) {
+        return eventService.createEvent(eventDto);
+    }
 
     @PostMapping
     public EventDto createEvent(@RequestBody EventDto eventDto) {

@@ -18,6 +18,9 @@ public class NotificationSettingsDto {
     private boolean snoozeEnabled; // Whether snooze option is enabled for the user
     private int snoozeDuration; // Duration in minutes for the snooze
     private int priority; // Notification priority (e.g., 1 - High, 2 - Medium, 3 - Low)
+    
+    private String title;      // Title for the popup
+    private String timestamp;
 
     // Getters and Setters
     public int getId() {

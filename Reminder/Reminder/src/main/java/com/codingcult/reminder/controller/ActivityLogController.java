@@ -1,33 +1,31 @@
 package com.codingcult.reminder.controller;
 
 import com.codingcult.reminder.dto.ActivityLogDto;
-import com.codingcult.reminder.service.ActivityLogServiceInterface;
+import com.codingcult.reminder.service.ActivityLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/activity-log")
+@RequestMapping("/api/activity-logs")
 public class ActivityLogController {
 
     @Autowired
-    private ActivityLogServiceInterface logService;
+    private ActivityLogService activityLogService;
 
-    @PostMapping("/log")
+    @PostMapping
     public String logAction(@RequestBody ActivityLogDto logDto) {
-        return logService.logAction(logDto);
+        return activityLogService.logAction(logDto);
     }
 
-    @GetMapping("/{phoneNumber}")
+    @GetMapping("/user/{phoneNumber}")
     public List<ActivityLogDto> getAllLogs(@PathVariable String phoneNumber) {
-        return logService.getAllLogs(phoneNumber);
+        return activityLogService.getAllLogs(phoneNumber);
     }
 
-    @GetMapping("/{phoneNumber}/filter")
-    public List<ActivityLogDto> getLogsByActionType(
-            @PathVariable String phoneNumber,
-            @RequestParam String actionType) {
-        return logService.getLogsByActionType(phoneNumber, actionType);
+    @GetMapping("/user/{phoneNumber}/action/{actionType}")
+    public List<ActivityLogDto> getLogsByActionType(@PathVariable String phoneNumber, @PathVariable String actionType) {
+        return activityLogService.getLogsByActionType(phoneNumber, actionType);
     }
 }

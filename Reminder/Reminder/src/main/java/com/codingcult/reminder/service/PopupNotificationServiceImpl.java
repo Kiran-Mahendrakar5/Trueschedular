@@ -4,6 +4,7 @@ package com.codingcult.reminder.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.codingcult.reminder.dto.NotificationSettingsDto;
 import com.codingcult.reminder.dto.PopupNotificationDto;
 import com.codingcult.reminder.enums.NotificationStatus;
 import com.codingcult.reminder.repo.PopupNotificationRepository;
@@ -38,4 +39,19 @@ public class PopupNotificationServiceImpl implements PopupNotificationService {
         }
         return "Notification not found.";
     }
+
+    @Override
+    public void displayPopup(NotificationSettingsDto notification) {
+        PopupNotificationDto popup = new PopupNotificationDto();
+
+        popup.setTitle("Notification");
+        popup.setMessage("You have a new notification.");
+        popup.setUserPhoneNumber(notification.getUserPhoneNumber());
+        popup.setTimestamp(String.valueOf(System.currentTimeMillis())); // or use LocalDateTime.now()
+        popup.setStatus(NotificationStatus.PENDING);
+
+        repository.save(popup);
+    }
+
+
 }

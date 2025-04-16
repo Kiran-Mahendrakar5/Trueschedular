@@ -9,3 +9,4 @@ public interface BillReminderService {
     List<BillReminderDto> getAllActiveBills();
     List<BillReminderDto> getBillsByType(String type);
 }
+

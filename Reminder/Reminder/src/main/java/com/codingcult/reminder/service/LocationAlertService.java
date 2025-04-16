@@ -1,10 +1,11 @@
 package com.codingcult.reminder.service;
 
 import com.codingcult.reminder.dto.LocationAlertDto;
+import com.codingcult.reminder.dto.MapLogDto;
 import com.codingcult.reminder.dto.PopupNotificationDto;
 import com.codingcult.reminder.enums.NotificationStatus;
 import com.codingcult.reminder.repo.LocationAlertRepository;
-
+import com.codingcult.reminder.repo.MapLogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,9 @@ public class LocationAlertService implements LocationAlertServiceInterface {
 
     @Autowired
     private LocationAlertRepository locationAlertRepository;
+
+    @Autowired
+    private MapLogRepository mapLogRepository;
 
     @Autowired
     private PopupNotificationService popupNotificationService;
@@ -46,7 +50,29 @@ public class LocationAlertService implements LocationAlertServiceInterface {
     }
 
     @Override
+    public void triggerLocationAlert(String phoneNumber) {
+        List<LocationAlertDto> locationAlerts = locationAlertRepository.findByUserPhoneNumber(phoneNumber);
+
+        for (LocationAlertDto locationAlert : locationAlerts) {
+            double distance = calculateDistance(phoneNumber, locationAlert.getLatitude(), locationAlert.getLongitude());
+            if (distance <= locationAlert.getRadius()) {
+                // Send notification via PopupNotificationService
+                PopupNotificationDto popupNotification = new PopupNotificationDto();
+                popupNotification.setUserPhoneNumber(locationAlert.getUserPhoneNumber());
+                popupNotification.setMessage(locationAlert.getMessage());
+                popupNotification.setSourceService("LocationAlertService");
+                popupNotification.setTriggerTime(locationAlert.getTriggerTime());
+                popupNotification.setStatus(NotificationStatus.PENDING);
+
+                popupNotificationService.triggerPopup(popupNotification);
+            }
+        }
+    }
+
+    // New method to trigger location alert based on coordinates
+    @Override
     public void triggerLocationAlert(double userLatitude, double userLongitude) {
+        // Fetch alerts for all users or a specific user
         List<LocationAlertDto> locationAlerts = locationAlertRepository.findAll();
 
         for (LocationAlertDto locationAlert : locationAlerts) {
@@ -74,7 +100,21 @@ public class LocationAlertService implements LocationAlertServiceInterface {
                 Math.cos(Math.toRadians(userLatitude)) * Math.cos(Math.toRadians(alertLatitude)) *
                 Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        double distance = R * c * 1000; // Convert to meters
-        return distance;
+        return R * c * 1000; // Convert to meters
+    }
+
+    // Overloaded method to calculate distance between user and alert point
+    private double calculateDistance(String phoneNumber, double alertLatitude, double alertLongitude) {
+        List<MapLogDto> mapLogDtoList = mapLogRepository.findByUserPhoneNumber(phoneNumber);
+
+        if (mapLogDtoList.isEmpty()) {
+            return Double.MAX_VALUE; // Return a large distance if no log found
+        }
+
+        MapLogDto userLocation = mapLogDtoList.get(0);
+        double userLatitude = userLocation.getLatitude();
+        double userLongitude = userLocation.getLongitude();
+
+        return calculateDistance(userLatitude, userLongitude, alertLatitude, alertLongitude);
     }
 }

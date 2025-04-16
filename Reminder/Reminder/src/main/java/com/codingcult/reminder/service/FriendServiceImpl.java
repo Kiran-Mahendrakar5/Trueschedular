@@ -1,6 +1,8 @@
 package com.codingcult.reminder.service;
 
 import com.codingcult.reminder.dto.FriendDto;
+import com.codingcult.reminder.dto.ReminderDto;
+import com.codingcult.reminder.feign.ReminderServiceClient;
 import com.codingcult.reminder.repo.FriendRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,26 @@ public class FriendServiceImpl implements FriendService {
 
     @Autowired
     private FriendRepository friendRepository; // Inject repository
+    
+    @Autowired
+    private ReminderServiceClient reminderClient;
+
+    public void addFriend1(FriendDto friendDto) {
+        // Save friend to database (omitted for brevity)
+
+        // Trigger birthday reminder
+        ReminderDto reminder = new ReminderDto();
+        reminder.setTitle("Birthday Alert: " + friendDto.getName());
+        reminder.setCategory("Birthday");
+        reminder.setReminderTime(friendDto.getBirthday().atTime(9, 0)); // 9 AM on birthday
+        reminder.setPhoneNumber(friendDto.getPhone());
+        reminder.setMessage("Wish your friend " + friendDto.getName() + " a Happy Birthday!");
+        reminder.setActive(true);
+        reminder.setRecurring(true);
+        reminder.setRepeatCycle("YEARLY");
+
+        reminderClient.saveReminder(reminder);
+    }
 
     // Method to add friend
     @Override

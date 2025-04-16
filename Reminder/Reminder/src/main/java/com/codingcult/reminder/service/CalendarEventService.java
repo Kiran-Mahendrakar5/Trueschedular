@@ -1,6 +1,9 @@
 package com.codingcult.reminder.service;
 
 import com.codingcult.reminder.dto.CalendarEventDto;
+import com.codingcult.reminder.dto.EventDto;
+import com.codingcult.reminder.dto.ReminderDto;
+import com.codingcult.reminder.feign.EventServiceClient;
 import com.codingcult.reminder.feign.ReminderServiceClient;
 import com.codingcult.reminder.feign.WearableServiceClient;
 import com.codingcult.reminder.repo.CalendarEventRepository;
@@ -14,6 +17,8 @@ public class CalendarEventService implements CalendarEventServiceInterface {
 
     @Autowired
     private CalendarEventRepository repo;
+    @Autowired
+    private EventServiceClient eventClient;
 
     @Autowired
     private ReminderServiceClient reminderClient;
@@ -53,4 +58,19 @@ public class CalendarEventService implements CalendarEventServiceInterface {
     public List<CalendarEventDto> getEvents(String phoneNumber) {
         return repo.findByUserPhoneNumber(phoneNumber);
     }
+    @Override
+    public String createEventAndRemind(EventDto dto) {
+        String response = eventClient.createEvent(dto); // ✅
+
+        ReminderDto reminder = new ReminderDto();
+        reminder.setPhoneNumber(dto.getUserPhoneNumber()); // ✅
+        reminder.setMessage("Upcoming Event: " + dto.getTitle()); // ✅
+        reminder.setReminderTime(dto.getStartTime().minusHours(1)); // ✅
+
+        reminderClient.createReminder(reminder);          
+        wearableClient.syncToWearable(reminder);          
+
+        return "Event created, reminder sent, and wearable updated.";
+    }
+
 }

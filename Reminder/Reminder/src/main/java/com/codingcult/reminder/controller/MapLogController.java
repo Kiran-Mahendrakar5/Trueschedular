@@ -4,9 +4,12 @@ import com.codingcult.reminder.dto.MapLogDto;
 import com.codingcult.reminder.service.MapLogServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @RestController
@@ -27,10 +30,23 @@ public class MapLogController {
     }
 
     @GetMapping("/history-range")
-    public List<MapLogDto> getLocationHistoryByRange(
-            @RequestParam String phoneNumber,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end) {
-        return mapLogService.getLocationHistoryByRange(phoneNumber, start, end);
+    public List<MapLogDto> getLocationHistoryByRange(@RequestParam String phoneNumber,
+                                                      @RequestParam String start,
+                                                      @RequestParam String end) {
+        try {
+            LocalDateTime startTime = LocalDateTime.parse(start);
+            LocalDateTime endTime = LocalDateTime.parse(end);
+
+            return mapLogService.getLocationHistoryByRange(phoneNumber, startTime, endTime);
+        } catch (DateTimeParseException e) {
+            // Handle invalid date format error
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid date format. Expected format: yyyy-MM-dd'T'HH:mm:ss");
+        } catch (Exception e) {
+            // General error handling
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad request: " + e.getMessage());
+        }
     }
+
+
+
 }

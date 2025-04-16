@@ -3,6 +3,7 @@ package com.codingcult.reminder.controller;
 import com.codingcult.reminder.dto.RechargeAlertDto;
 import com.codingcult.reminder.service.RechargeAlertService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,6 +14,13 @@ public class RechargeAlertController {
 
     @Autowired
     private RechargeAlertService rechargeAlertService;
+    
+    @PostMapping
+    public ResponseEntity<String> triggerRechargeAlert(@RequestBody RechargeAlertDto dto) {
+        // Your logic here
+        System.out.println("Received recharge alert for: " + dto.getMobileNumber());
+        return ResponseEntity.ok("Recharge alert triggered.");
+    }
 
     // Endpoint to add a recharge alert
     @PostMapping("/add")

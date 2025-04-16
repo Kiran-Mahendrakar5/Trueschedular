@@ -15,7 +15,7 @@ public class DailyScheduleAlarmController {
     @Autowired
     private DailyScheduleAlarmService service;
 
-    @PostMapping("/add")
+    @PostMapping("/add") // Final path: /dailySchedule/add
     public String add(@RequestBody DailyScheduleAlarmDto dto) {
         return service.addAlarm(dto);
     }

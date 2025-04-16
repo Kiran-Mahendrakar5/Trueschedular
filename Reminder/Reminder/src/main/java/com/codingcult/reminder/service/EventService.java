@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.codingcult.reminder.dto.EventDto;
+import com.codingcult.reminder.feign.CalendarServiceClient;
+import com.codingcult.reminder.feign.FriendServiceClient;
+import com.codingcult.reminder.feign.ReminderServiceClient;
 import com.codingcult.reminder.repo.EventRepository;
 
 import java.util.List;
@@ -14,11 +17,40 @@ import java.util.Optional;
 public class EventService implements EventServiceInterface {
 
     private final EventRepository eventRepository;
+    
+    @Autowired
+    private CalendarServiceClient calendarClient;
+
+    @Autowired
+    private ReminderServiceClient reminderClient;
+
+    @Autowired
+    private FriendServiceClient friendClient;
 
     @Autowired
     public EventService(EventRepository eventRepository) {
         this.eventRepository = eventRepository;
     }
+    
+    // Method to create or update events
+    public String createOrUpdateEvent(EventDto eventDto) {
+        // Process event creation or update logic here
+        
+        // Notify Calendar Service
+        String calendarResponse = calendarClient.updateEvent(eventDto);
+        
+        // Notify Reminder Service
+        String reminderResponse = reminderClient.createReminder(eventDto);
+        
+        // If event is a birthday, notify Friend Service
+        if (eventDto.getTitle().equals("Birthday")) {
+            String friendResponse = friendClient.sendBirthdayData(eventDto);
+        }
+        
+        // Return response after event handling
+        return "Event created or updated and notifications sent.";
+    }
+
 
     @Override
     public EventDto createEvent(EventDto eventDto) {

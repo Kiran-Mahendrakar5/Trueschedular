@@ -14,4 +14,8 @@ public interface LocationAlertServiceInterface {
     String updateLocationAlertStatus(int id, NotificationStatus status);
 
     void triggerLocationAlert(double userLatitude, double userLongitude); // Trigger location-based alerts
+
+	void triggerLocationAlert(String phoneNumber);
+
+	
 }

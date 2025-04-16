@@ -8,8 +8,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @ComponentScan(basePackages = { "com.codingcult.reminder", "com.codingcult.reminder.controller" })
 @SpringBootApplication
-@EnableScheduling
-@EnableFeignClients
+@EnableFeignClients(basePackages = "com.codingcult.reminder.feign")
 public class ReminderApplication {
 
 	public static void main(String[] args) {

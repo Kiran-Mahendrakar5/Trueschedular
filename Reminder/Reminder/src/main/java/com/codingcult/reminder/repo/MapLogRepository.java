@@ -11,4 +11,6 @@ public interface MapLogRepository extends JpaRepository<MapLogDto, Integer> {
     List<MapLogDto> findByUserPhoneNumber(String phoneNumber);
 
     List<MapLogDto> findByUserPhoneNumberAndTimestampBetween(String phoneNumber, LocalDateTime start, LocalDateTime end);
+    
+    
 }

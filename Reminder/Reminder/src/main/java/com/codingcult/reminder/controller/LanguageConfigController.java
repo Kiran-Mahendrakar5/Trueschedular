@@ -12,13 +12,18 @@ public class LanguageConfigController {
     @Autowired
     private LanguageConfigServiceInterface languageConfigService;
 
-    @PostMapping("/save")
-    public String saveLanguageConfig(@RequestBody LanguageConfigDto configDto) {
-        return languageConfigService.saveLanguageConfig(configDto);
+    @GetMapping("/{phoneNumber}")
+    public LanguageConfigDto getUserLanguageConfig(@PathVariable String phoneNumber) {
+        return languageConfigService.getLanguageConfigByPhone(phoneNumber);
     }
 
-    @GetMapping("/{phoneNumber}")
-    public LanguageConfigDto getLanguageConfig(@PathVariable String phoneNumber) {
-        return languageConfigService.getLanguageConfigByPhone(phoneNumber);
+    @PostMapping("/save")
+    public String saveLanguageConfig(@RequestBody LanguageConfigDto languageConfigDto) {
+        return languageConfigService.saveLanguageConfig(languageConfigDto);
+    }
+
+    @PutMapping("/update")
+    public String updateLanguageConfig(@RequestBody LanguageConfigDto languageConfigDto) {
+        return languageConfigService.saveLanguageConfig(languageConfigDto);
     }
 }

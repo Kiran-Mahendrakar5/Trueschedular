@@ -1,6 +1,7 @@
 package com.codingcult.reminder.controller;
 
 import com.codingcult.reminder.dto.CalendarEventDto;
+import com.codingcult.reminder.dto.EventDto;
 import com.codingcult.reminder.service.CalendarEventServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,11 @@ public class CalendarEventController {
     @GetMapping("/{phoneNumber}")
     public List<CalendarEventDto> getEvents(@PathVariable String phoneNumber) {
         return service.getEvents(phoneNumber);
+    }
+    
+    @PostMapping("/event")
+    public String addEventAndNotify(@RequestBody EventDto dto) {
+        return service.createEventAndRemind(dto);
     }
 }
 

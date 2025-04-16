@@ -8,4 +8,5 @@ import java.util.List;
 public interface ReminderRepository extends JpaRepository<ReminderDto, Integer> {
     List<ReminderDto> findByIsActiveTrue();
     List<ReminderDto> findByCategory(String category);
+	List<ReminderDto> findByPhoneNumber(String phoneNumber);
 }

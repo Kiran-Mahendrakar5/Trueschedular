@@ -1,11 +1,15 @@
 package com.codingcult.reminder.controller;
 
 import com.codingcult.reminder.dto.GeoAlertDto;
+import com.codingcult.reminder.dto.ReminderDto;
 import com.codingcult.reminder.enums.NotificationStatus;
+import com.codingcult.reminder.feign.ReminderServiceClient;
 import com.codingcult.reminder.service.GeoAlertService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -14,6 +18,29 @@ public class GeoAlertController {
 
     @Autowired
     private GeoAlertService geoAlertService;
+    
+    @Autowired
+    private ReminderServiceClient reminderClient;
+
+    @PostMapping("/trigger-and-remind")
+    public ResponseEntity<String> triggerAlert(@RequestBody GeoAlertDto geoAlertDto) {
+        // Your actual logic here
+        System.out.println("Latitude: " + geoAlertDto.getLatitude());
+        System.out.println("Longitude: " + geoAlertDto.getLongitude());
+        System.out.println("Phone: " + geoAlertDto.getUserPhoneNumber());
+
+        // Here you can trigger your reminder logic, save the geo alert in the database,
+        // or process any other actions.
+
+        // For example, let's assume you want to set a trigger time for this geo-alert:
+        geoAlertDto.setTriggerTime(LocalDateTime.now());
+
+        // Trigger reminder logic...
+        geoAlertService.createGeoAlert(geoAlertDto);
+
+        return ResponseEntity.ok("Reminder triggered successfully!");
+    }
+
 
     // Endpoint to create a geo-alert
     @PostMapping("/create")

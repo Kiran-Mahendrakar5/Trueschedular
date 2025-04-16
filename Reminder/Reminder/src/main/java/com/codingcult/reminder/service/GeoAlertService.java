@@ -7,6 +7,7 @@ import com.codingcult.reminder.repo.GeoAlertRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -75,5 +76,28 @@ public class GeoAlertService implements GeoAlertServiceInterface {
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         double distance = R * c; // in km
         return distance * 1000; // convert to meters
+    }
+    
+    public void triggerGeoAlertPopup(String phoneNumber, String alertMessage) {
+        PopupNotificationDto popup = new PopupNotificationDto();
+        popup.setTitle("Geo Alert");
+        popup.setMessage(alertMessage);
+        popup.setUserPhoneNumber(phoneNumber);
+        popup.setTimestamp(LocalDateTime.now().toString());
+        popup.setStatus(NotificationStatus.PENDING);
+
+        popupNotificationService.triggerPopup(popup);
+    }
+
+    public boolean checkGeoFence(double latitude, double longitude) {
+        // For simplicity, assume we have predefined geofences
+        // (For real cases, you would have more complex logic here)
+        double geofenceLatitude = 12.9716;
+        double geofenceLongitude = 77.5946;
+
+        // Check if the coordinates are inside a 1 km radius of a point (e.g., Bangalore)
+        double distance = calculateDistance(latitude, longitude, geofenceLatitude, geofenceLongitude);
+
+        return distance <= 1.0; // 1 km radius
     }
 }

@@ -22,69 +22,97 @@ public class PopupNotificationDto {
     private NotificationStatus status; // PENDING, SNOOZED, DISMISSED, SEEN
 
     private String userPhoneNumber;
+    
+    private String title;      // Title for the popup
+    private String timestamp;
 
     // Default constructor
     public PopupNotificationDto() {}
 
-    // Getters and Setters
+	public PopupNotificationDto(int id, String sourceService, String message, LocalDateTime triggerTime,
+			NotificationStatus status, String userPhoneNumber, String title, String timestamp) {
+		super();
+		this.id = id;
+		this.sourceService = sourceService;
+		this.message = message;
+		this.triggerTime = triggerTime;
+		this.status = status;
+		this.userPhoneNumber = userPhoneNumber;
+		this.title = title;
+		this.timestamp = timestamp;
+	}
 
-    public int getId() {
-        return id;
-    }
+	@Override
+	public String toString() {
+		return "PopupNotificationDto [id=" + id + ", sourceService=" + sourceService + ", message=" + message
+				+ ", triggerTime=" + triggerTime + ", status=" + status + ", userPhoneNumber=" + userPhoneNumber
+				+ ", title=" + title + ", timestamp=" + timestamp + "]";
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public String getSourceService() {
-        return sourceService;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public void setSourceService(String sourceService) {
-        this.sourceService = sourceService;
-    }
+	public String getSourceService() {
+		return sourceService;
+	}
 
-    public String getMessage() {
-        return message;
-    }
+	public void setSourceService(String sourceService) {
+		this.sourceService = sourceService;
+	}
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
+	public String getMessage() {
+		return message;
+	}
 
-    public LocalDateTime getTriggerTime() {
-        return triggerTime;
-    }
+	public void setMessage(String message) {
+		this.message = message;
+	}
 
-    public void setTriggerTime(LocalDateTime triggerTime) {
-        this.triggerTime = triggerTime;
-    }
+	public LocalDateTime getTriggerTime() {
+		return triggerTime;
+	}
 
-    public NotificationStatus getStatus() {
-        return status;
-    }
+	public void setTriggerTime(LocalDateTime triggerTime) {
+		this.triggerTime = triggerTime;
+	}
 
-    public void setStatus(NotificationStatus status) {
-        this.status = status;
-    }
+	public NotificationStatus getStatus() {
+		return status;
+	}
 
-    public String getUserPhoneNumber() {
-        return userPhoneNumber;
-    }
+	public void setStatus(NotificationStatus status) {
+		this.status = status;
+	}
 
-    public void setUserPhoneNumber(String userPhoneNumber) {
-        this.userPhoneNumber = userPhoneNumber;
-    }
+	public String getUserPhoneNumber() {
+		return userPhoneNumber;
+	}
 
-    @Override
-    public String toString() {
-        return "PopupNotificationDto{" +
-                "id=" + id +
-                ", sourceService='" + sourceService + '\'' +
-                ", message='" + message + '\'' +
-                ", triggerTime=" + triggerTime +
-                ", status=" + status +
-                ", userPhoneNumber='" + userPhoneNumber + '\'' +
-                '}';
-    }
+	public void setUserPhoneNumber(String userPhoneNumber) {
+		this.userPhoneNumber = userPhoneNumber;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(String timestamp) {
+		this.timestamp = timestamp;
+	}
+    
+    
+
 }
