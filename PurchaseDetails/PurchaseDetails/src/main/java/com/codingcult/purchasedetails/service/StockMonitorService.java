@@ -9,4 +9,6 @@ public interface StockMonitorService {
     List<StockMonitorDto> getAllStockMonitors();
     StockMonitorDto getStockMonitorBySymbol(String stockSymbol);
     void monitorStockPriceChange();
+    void monitorPurchaseFrequencyAndRecommendRefills();
+    void processStockRefill();
 }

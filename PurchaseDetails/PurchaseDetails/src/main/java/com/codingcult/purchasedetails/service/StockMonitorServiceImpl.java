@@ -1,50 +1,73 @@
 package com.codingcult.purchasedetails.service;
 
+import com.codingcult.purchasedetails.client.PurchaseServiceClient;
+import com.codingcult.purchasedetails.dto.PurchaseIteamsDto;
 import com.codingcult.purchasedetails.dto.StockMonitorDto;
 import com.codingcult.purchasedetails.repo.StockMonitorRepository;
-import com.codingcult.purchasedetails.service.StockMonitorService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.List;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class StockMonitorServiceImpl implements StockMonitorService {
 
     @Autowired
-    private StockMonitorRepository stockMonitorRepository;
+    private StockMonitorRepository stockRepo;
+
+    @Autowired
+    private PurchaseServiceClient purchaseClient;
 
     @Override
     public StockMonitorDto saveStockMonitor(StockMonitorDto stockMonitorDto) {
-        stockMonitorDto.setActive(true);
-        return stockMonitorRepository.save(stockMonitorDto);
+        return stockRepo.save(stockMonitorDto);
     }
 
     @Override
     public List<StockMonitorDto> getAllStockMonitors() {
-        return stockMonitorRepository.findByIsActiveTrue();
+        return stockRepo.findByIsActiveTrue();
     }
 
     @Override
     public StockMonitorDto getStockMonitorBySymbol(String stockSymbol) {
-        return stockMonitorRepository.findByStockSymbolAndIsActiveTrue(stockSymbol);
+        return stockRepo.findByStockSymbolAndIsActiveTrue(stockSymbol);
     }
 
     @Override
     public void monitorStockPriceChange() {
-        // Logic to monitor stock prices and trigger alerts
-        List<StockMonitorDto> allStocks = getAllStockMonitors();
-        for (StockMonitorDto stock : allStocks) {
-            // Example: Check if price has fluctuated by more than the alert range
-            if (Math.abs(stock.getPrice() - getCurrentPrice(stock.getStockSymbol())) > stock.getAlertRange()) {
-                // Trigger alert (e.g., push notification)
-                stock.setAlertEnabled(true);
-                stockMonitorRepository.save(stock);
-            }
-        }
+        // Logic for monitoring price changes
+        // Placeholder for monitoring stock price change logic
     }
 
-    private double getCurrentPrice(String stockSymbol) {
-        // Implement a method to fetch the latest price for the stock
-        return 100.0; // Placeholder for actual price fetching logic
+    @Override
+    public void monitorPurchaseFrequencyAndRecommendRefills() {
+        List<PurchaseIteamsDto> allItems = purchaseClient.getAllPurchaseItems();  // Fetch all purchase items
+
+        // Group purchase items by name and count their frequencies
+        Map<String, Long> itemPurchaseCount = allItems.stream()
+                .collect(Collectors.groupingBy(PurchaseIteamsDto::getItemName, Collectors.counting()));
+
+        // Check each item for stock levels and frequency of purchases
+        itemPurchaseCount.forEach((itemName, frequency) -> {
+            StockMonitorDto stockMonitor = stockRepo.findByStockSymbolAndIsActiveTrue(itemName);
+            if (stockMonitor != null) {
+                int quantityLeft = stockMonitor.getQuantityAvailable();
+                // Refilling criteria: high frequency and low stock
+                if (frequency > 10 && quantityLeft < 20) {  
+                    // Log recommendation and enable refill alert
+                    System.out.println("Recommendation: Refill stock for " + itemName + " as it has been purchased " + frequency + " times.");
+                    stockMonitor.setAlertEnabled(true);  // Enable alert for refill
+                    stockRepo.save(stockMonitor);  // Save updated stock monitor
+                }
+            }
+        });
+    }
+
+    @Override
+    public void processStockRefill() {
+        // Logic for processing stock refills
+        // Placeholder for stock refill process logic
     }
 }
